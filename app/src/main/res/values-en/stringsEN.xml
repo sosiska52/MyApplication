@@ -39,8 +39,10 @@
     <string name="history_item_in">In:</string>
     <string name="button_history_delete">Delete</string>
     <string name="button_history_send_data">Send</string>
+    <string name="button_history_clear_all_history">Clear history</string>
 
     <string-array name = "stop_options">
+        <item>Bus stop</item>
         <item>28 iyulya</item>
         <item>4-y Fort</item>
         <item>Abrikosovaya</item>
@@ -382,6 +384,7 @@
     </string-array>
 
     <string-array name="stop_fullness">
+        <item>Fullness</item>
         <item>Empty</item>
         <item>~7 people</item>
         <item>~15 people</item>
@@ -390,6 +393,7 @@
     </string-array>
 
     <string-array name="transport_options">
+        <item>Transport</item>
         <item>Bus</item>
         <item>Articulated bus</item>
         <item>Small bus</item>
@@ -398,6 +402,7 @@
     </string-array>
 
     <string-array name="transport_fullness">
+        <item>Fullness</item>
         <item>Almost or completely empty</item>
         <item>Half of the seats are occupied</item>
         <item>All seats are occupied</item>
@@ -406,6 +411,7 @@
     </string-array>
 
     <string-array name="bus_options">
+        <item>Number of path</item>
         <item>1</item>
         <item>1А</item>
         <item>2</item>
@@ -471,6 +477,7 @@
     </string-array>
 
     <string-array name="trolleybus_options">
+        <item>Number of path</item>
         <item>100</item>
         <item>101</item>
         <item>101А</item>
@@ -487,6 +494,7 @@
     </string-array>
 
     <string-array name="minibus_options">
+        <item>Number of path</item>
         <item>№1</item>
         <item>№2</item>
         <item>№4</item>
