@@ -52,14 +52,14 @@ public class HistoryActivity extends AppCompatActivity {
     private int position =0;
     private Drive mDriveService;
     private ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
-
+    HistoryAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
         makeListView();
-        HistoryAdapter adapter = new HistoryAdapter(this, historyItems);
+        adapter = new HistoryAdapter(this, historyItems);
         ListView listView = findViewById(R.id.listViewHistory);
         listView.setAdapter(adapter);
 
@@ -82,7 +82,7 @@ public class HistoryActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
         findViewById(R.id.imageButtonRegistrationINHistory).setOnClickListener(view -> startMainActivity());
         findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
-        findViewById(R.id.deleteButton).setOnClickListener(view -> clearShared());
+        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> clearShared());
         requestSignIn();
     }
     private void makeListView(){
@@ -178,7 +178,8 @@ public class HistoryActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-
+        adapter.clear();
+        adapter.notifyDataSetChanged();
     }
     private void requestSignIn() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);

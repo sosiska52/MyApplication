@@ -124,34 +124,40 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
         //можно убрать но я не хочу
-        spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
-                if (selectedItem.equals("Автобус")) {
-                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-                            R.array.bus_options, android.R.layout.simple_spinner_item);
-                } else if (selectedItem.equals("Троллейбус")) {
-                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-                            R.array.trolleybus_options, android.R.layout.simple_spinner_item);
-                } else if (selectedItem.equals("Маршрутка")) {
-                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-                            R.array.minibus_options, android.R.layout.simple_spinner_item);
-                } else {
-                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-                            R.array.error_optins, android.R.layout.simple_spinner_item);
-                }
-                    adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerPath.setAdapter(adapterPath);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Обработка, если ни один элемент не выбран
-            }
-        });
+//        spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String selectedItem = (String) parent.getItemAtPosition(position);
+//                // Обработка выбора элемента
+//                Resources res = getResources();
+//                if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
+//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
+//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
+//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
+//                            R.array.bus_options, android.R.layout.simple_spinner_item);
+//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
+//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
+//                            R.array.trolleybus_options, android.R.layout.simple_spinner_item);
+//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1])) {
+//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
+//                            R.array.minibus_options, android.R.layout.simple_spinner_item);
+//                } else {
+//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
+//                            R.array.error_optins, android.R.layout.simple_spinner_item);
+//                }
+//                adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                spinnerPath.setAdapter(adapterPath);
+//                int pathIndex = adapterPath.getPosition(sharedPreferences.getString("spinnerPath", ""););
+//                if (pathIndex != -1) {
+//                    spinnerPath.setSelection(pathIndex);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Обработка, если ни один элемент не выбран
+//            }
+//        });
 
 
         //Методы
@@ -250,7 +256,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
                         adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
                                 R.array.trolleybus_options, android.R.layout.simple_spinner_item);
-                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1])) {
+                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[5])) {
                         adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
                                 R.array.minibus_options, android.R.layout.simple_spinner_item);
                     } else {
