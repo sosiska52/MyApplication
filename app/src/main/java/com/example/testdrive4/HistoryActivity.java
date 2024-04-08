@@ -82,7 +82,7 @@ public class HistoryActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
         findViewById(R.id.imageButtonRegistrationINHistory).setOnClickListener(view -> startMainActivity());
         findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
-        findViewById(R.id.deleteButton).setOnClickListener(view -> clearShared());
+        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> clearShared());
         requestSignIn();
     }
     private void makeListView(){
