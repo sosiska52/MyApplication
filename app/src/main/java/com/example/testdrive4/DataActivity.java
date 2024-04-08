@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -30,6 +31,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
+
+import io.opencensus.resource.Resource;
 
 public class DataActivity extends AppCompatActivity implements LocationListener {
 
@@ -238,13 +241,16 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedItem = (String) parent.getItemAtPosition(position);
                     // Обработка выбора элемента
-                    if (selectedItem.equals("Автобус")) {
+                    Resources res = getResources();
+                    if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
+                            selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
+                            selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
                         adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
                                 R.array.bus_options, android.R.layout.simple_spinner_item);
-                    } else if (selectedItem.equals("Троллейбус")) {
+                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
                         adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
                                 R.array.trolleybus_options, android.R.layout.simple_spinner_item);
-                    } else if (selectedItem.equals("Маршрутка")) {
+                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1])) {
                         adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
                                 R.array.minibus_options, android.R.layout.simple_spinner_item);
                     } else {
@@ -349,15 +355,16 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         imageView.setImageBitmap(null);
     }
     private boolean checkFields(){
-        if(spinnerStop.getSelectedItem().toString().equals("Остановка"))
+        Resources res = getResources();
+        if(spinnerStop.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_options)[0]))
             return false;
-        if(spinnerStopFullness.getSelectedItem().toString().equals("Заполненость"))
+        if(spinnerStopFullness.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_fullness)[0]))
             return false;
-        if(spinnerPath.getSelectedItem().toString().equals("Номер маршрута"))
+        if(spinnerPath.getSelectedItem().toString().equals(res.getStringArray(R.array.bus_options)[0]))
             return false;
 //        if(spinnerTransport.getSelectedItem().toString().equals(""))
 //            return false;
-        if(spinnerTransportFullness.getSelectedItem().toString().equals("Заполненость"))
+        if(spinnerTransportFullness.getSelectedItem().toString().equals(res.getStringArray(R.array.transport_fullness)[0]))
             return false;
         if(editTextPassengersOut.getText().toString().equals(""))
             return false;
