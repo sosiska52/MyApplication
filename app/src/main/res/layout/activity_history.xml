@@ -69,13 +69,21 @@
         android:layout_centerHorizontal="true"
         android:text="@string/button_history_send_data" />
 
+    <Button
+        android:id="@+id/buttonClearAllHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonHistorySendData"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_history_clear_all_history" />
+
     <ListView
         android:id="@+id/listViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/buttonHistorySendData"
+        android:layout_below="@id/buttonClearAllHistory"
         android:layout_above="@id/bottomMenu"/>
 
     <RelativeLayout
@@ -120,11 +128,5 @@
             android:contentDescription="@string/description_history"
             android:src="@android:drawable/ic_menu_recent_history" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 </RelativeLayout>
