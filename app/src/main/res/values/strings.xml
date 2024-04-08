@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Прогнозирование пассажиропотока</string>
 
     <string name="registration_name">Регистрация</string>
     <string name="editText_name">Введите имя</string>
