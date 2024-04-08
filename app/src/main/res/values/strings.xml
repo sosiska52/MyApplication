@@ -37,6 +37,7 @@
     <string name="history_item_in">Вошло:</string>
     <string name="button_history_delete">Удалить</string>
     <string name="button_history_send_data">Отправить</string>
+    <string name="button_history_clear_all_history">Очистить историю</string>
 
     <string-array name = "stop_options">
         <item>Остановка</item>
@@ -381,17 +382,16 @@
     </string-array>
 
     <string-array name="stop_fullness">
-        <item>Заполненость</item>
+        <item>Заполненность</item>
         <item>Пустая</item>
         <item>~7 человек</item>
         <item>~15 человек</item>
         <item>~20 человек</item>
         <item>Переполненная</item>
     </string-array>
-    <string-array name="error_optins">
-        <item>Выберите тип транспорта</item>
-    </string-array>
+
     <string-array name="transport_options">
+        <item>Транспорт</item>
         <item>Автобус</item>
         <item>Сочлененный автобус </item>
         <item>Микроавтобус</item>
@@ -400,7 +400,7 @@
     </string-array>
 
     <string-array name="transport_fullness">
-        <item>Заполненость</item>
+        <item>Заполненность</item>
         <item>Почти или полностью пустой</item>
         <item>Занята половина сидячих мест</item>
         <item>Заняты все сидячие места</item>
@@ -511,5 +511,9 @@
         <item>№23</item>
         <item>№25</item>
         <item>№35</item>
+    </string-array>
+
+    <string-array name="error_optins">
+        <item>Выберите тип транспорта</item>
     </string-array>
 </resources>
