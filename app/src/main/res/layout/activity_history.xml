@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activity_history">
+
+    <TextView
+        android:id="@+id/textHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/history_name"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/textViewDataSaved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/textHistory">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/data_saved" />
+
+        <TextView
+            android:id="@+id/textViewDataSavedNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/textViewDataSent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/textViewDataSaved">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_sent" />
+
+        <TextView
+            android:id="@+id/textViewDataSentNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonHistorySendData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewDataSent"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_history_send_data" />
+
+    <ListView
+        android:id="@+id/listViewHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_below="@id/buttonHistorySendData"
+        android:layout_above="@id/bottomMenu"/>
+
+    <RelativeLayout
+        android:id="@+id/bottomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/boxed_background_light_purple"
+        android:layout_alignParentBottom="true"
+        tools:layout_editor_absoluteX="16dp">
+
+        <ImageButton
+            android:id="@+id/imageButtonAddDataINHistory"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/boxed_background_light_purple"
+            android:contentDescription="@string/description_add_data"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonRegistrationINHistory"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/imageButtonAddDataINHistory"
+            android:background="@drawable/boxed_background_light_purple"
+            android:contentDescription="@string/description_registration"
+            app:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+        <ImageButton
+            android:id="@+id/imageButtonHistoryINHistory"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/imageButtonAddDataINHistory"
+            android:background="@drawable/boxed_background_grey"
+            android:contentDescription="@string/description_history"
+            android:src="@android:drawable/ic_menu_recent_history" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+</RelativeLayout>

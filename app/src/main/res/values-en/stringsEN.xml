@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Application</string>
+
+    <string name="registration_name">Registration</string>
+    <string name="editText_name">Enter name</string>
+    <string name="editText_surname">Enter surname</string>
+    <string name="editText_patronymic">Enter patronymic</string>
+    <string name="editText_googleURL">Enter google disk URL</string>
+    <string name="button_login">Login</string>
+    <string name="button_save">Save</string>
+    <string name="button_languageEn">En</string>
+    <string name="button_languageRu">Ru</string>
+    <string name="description_add_data">to_add_data</string>
+    <string name="description_registration">to_registration</string>
+    <string name="description_history">to_history></string>
+
+    <string name="add_data_name">Fixation</string>
+    <string name="description_scrollview">add_data</string>
+    <string name="editText_bus_stop_name">Select the number of the bus stop</string>
+    <string name="drop_down_menu_bus_stop">Choose the bus stop</string>
+    <string name="drop_down_menu_bus_stop_fullness">Select the fullness of the stop</string>
+    <string name="drop_down_menu_transport_type">Select the type of transport</string>
+    <string name="drop_down_menu_fullness">Select the fullness of transport</string>
+    <string name="drop_down_menu_bus_number">Select a route number</string>
+    <string name="editText_num_in">Number of passengers who entered</string>
+    <string name="editText_num_out">Number of passengers who have left</string>
+    <string name="description_camera">make_photo</string>
+    <string name="description_photo">last_photo</string>
+    <string name="button_send">Save</string>
+    <string name="button_clear">Clear</string>
+
+    <string name="history_name">History</string>
+    <string name="data_saved">Recordings made:</string>
+    <string name="data_sent">Records sent:</string>
+
+    <string name="history_item_out">Out:</string>
+    <string name="history_item_in">In:</string>
+    <string name="button_history_delete">Delete</string>
+    <string name="button_history_send_data">Send</string>
+
+    <string-array name = "stop_options">
+        <item>28 iyulya</item>
+        <item>4-y Fort</item>
+        <item>Abrikosovaya</item>
+        <item>Avtobaza svyazi</item>
+        <item>Avtovokzal</item>
+        <item>Avtolyubitelyei</item>
+        <item>Avtorynok</item>
+        <item>Avtoshkola</item>
+        <item>Agrotrans</item>
+        <item>Adamkovskaya</item>
+        <item>AK Zhabinka</item>
+        <item>Ambulatoriya</item>
+        <item>AP</item>
+        <item>Arkadiya</item>
+        <item>Aerodromnaya</item>
+        <item>baza "Rybtorg"</item>
+        <item>Baumanskaya</item>
+        <item>Bezyamnaya</item>
+        <item>Belarusbank</item>
+        <item>Belovezhskaya</item>
+        <item>Belorusskaya</item>
+        <item>Beltelekom</item>
+        <item>Beltrans Oyl</item>
+        <item>Beltsvetmet</item>
+        <item>Beregovaya</item>
+        <item>Berezovaya roshcha</item>
+        <item>Berezovka</item>
+        <item>Bernady</item>
+        <item>Bekhtereva</item>
+        <item>Blagoveshchenskogo</item>
+        <item>Bobrova</item>
+        <item>Bogdanovicha</item>
+        <item>Bogdanchuka</item>
+        <item>Bolnitsa</item>
+        <item>Borisa Maslova</item>
+        <item>Brest Vostochnyy</item>
+        <item>Brest Zapadnyy</item>
+        <item>Brestglavsnab</item>
+        <item>Brestoblavtotrans</item>
+        <item>Brestselstroy</item>
+        <item>Brestskikh diviziy</item>
+        <item>BTI</item>
+        <item>BTK</item>
+        <item>Bulvar Kosmonavtov</item>
+        <item>Bulvar Shevchenko</item>
+        <item>Bulkova</item>
+        <item>BETZ</item>
+        <item>VamRad</item>
+        <item>Varshavskiy rynok</item>
+        <item>Varshavskoe shosse</item>
+        <item>Vereskovaya</item>
+        <item>Veselaya</item>
+        <item>Vetlechebnitsa</item>
+        <item>Vetrennaya</item>
+        <item>Vneshttrans</item>
+        <item>Vodozabor</item>
+        <item>Vodokanal</item>
+        <item>Voinov-internatsionalistov</item>
+        <item>Volgogradskaya</item>
+        <item>Volynka</item>
+        <item>Vostochnaya</item>
+        <item>Vostochnyy mikrorayon</item>
+        <item>Vulkovskaya</item>
+        <item>Gavrilova</item>
+        <item>Gagarina</item>
+        <item>Gazoapparat</item>
+        <item>Garazhi OPC</item>
+        <item>Gastello</item>
+        <item>Gvardeyskaya</item>
+        <item>Georgievskaya</item>
+        <item>Gershony</item>
+        <item>Gefest-Kvarts</item>
+        <item>Gimnaziya №1</item>
+        <item>Gogolya</item>
+        <item>Gozdetskogo</item>
+        <item>Gorodskaya</item>
+        <item>Gorodskaya bolnitsa №1</item>
+        <item>GORTOP</item>
+        <item>Gostinitsa Belarus</item>
+        <item>Gostinitsa Druzhba</item>
+        <item>Gostinitsa Yunost</item>
+        <item>Grebnoy kanal</item>
+        <item>Griboedova</item>
+        <item>Gryunvaldskaya</item>
+        <item>Guznyanskaya</item>
+        <item>Dvorets sporta Viktoriya</item>
+        <item>Dvornikova</item>
+        <item>Dvortsovaya</item>
+        <item>Derevnya Ploska</item>
+        <item>Desantnaya</item>
+        <item>Detskiy gorodok</item>
+        <item>Dobraya</item>
+        <item>Dom veteranov</item>
+        <item>DP "DS "Viktoriya" otp.</item>
+        <item>DP "DS Viktoriya" prib.</item>
+        <item>DP "Tsvetotron"</item>
+        <item>DP "Yuzhny gorodok"</item>
+        <item>DS Viktoriya</item>
+        <item>DS Oblastnaya bolnitsa</item>
+        <item>DSU</item>
+        <item>Dubrovka</item>
+        <item>Yesenina</item>
+        <item>Zh/D kolledzh</item>
+        <item>Zhukova</item>
+        <item>Zavod</item>
+        <item>Zavod bytovoy khimii</item>
+        <item>Zagorodnaya</item>
+        <item>Zagorodneva</item>
+        <item>Zarechnaya</item>
+        <item>Zashchitnikov Otechestva</item>
+        <item>Zelenaya</item>
+        <item>Zona otdykha</item>
+        <item>Zubachyova</item>
+        <item>Involuks</item>
+        <item>Inko Fud</item>
+        <item>Intertrans</item>
+        <item>Inturist</item>
+        <item>Kalinovaya</item>
+        <item>Karaseva</item>
+        <item>Karla Marksa</item>
+        <item>Kartodrom</item>
+        <item>Karer </item>
+        <item>Katin Bor</item>
+        <item>Kedrovaya</item>
+        <item>Kievskaya</item>
+        <item>Kirpichnaya</item>
+        <item>Kladbishche</item>
+        <item>Kladbishche Ploska</item>
+        <item>Kladbishche Severnoe</item>
+        <item>Klary Cetkin</item>
+        <item>Kleyniki</item>
+        <item>Kleynikovskaya</item>
+        <item>Kovalevo</item>
+        <item>Kovelskaya</item>
+        <item>Kovelskoe shosse</item>
+        <item>Kovry Bresta</item>
+        <item>Kolesnika</item>
+        <item>Kolledzh torgovli</item>
+        <item>Koltsevaya</item>
+        <item>Komsomolskaya</item>
+        <item>Kostyushko</item>
+        <item>Kotelnya-Boyarskaya</item>
+        <item>Krasnogvardeiskaya</item>
+        <item>Krasnoznamennaya</item>
+        <item>Krasny dvor</item>
+        <item>Krepost</item>
+        <item>Krishtofovicha</item>
+        <item>Krushinskaya</item>
+        <item>KSM</item>
+        <item>Kupalskaya</item>
+        <item>Landshaftnaya</item>
+        <item>Leitenanta Akimochkina</item>
+        <item>Leitenanta Ryabtseva</item>
+        <item>Lenina</item>
+        <item>Leningradskaya</item>
+        <item>Letnaya</item>
+        <item>Litsey</item>
+        <item>Lugovaya</item>
+        <item>Lutskaya</item>
+        <item>Lysaya gora</item>
+        <item>Magazin</item>
+        <item>Magazin "Prodtovary"</item>
+        <item>Magazin "Severny"</item>
+        <item>Matrosova</item>
+        <item>Makhnovicha</item>
+        <item>Mashinostroitelny zavod</item>
+        <item>Mayakovskogo</item>
+        <item>Meditsinskaya</item>
+        <item>Meditsinskiy Kompleks</item>
+        <item>Meditsinskiy Tsentr LODE</item>
+        <item>Mikrorayon Vulka</item>
+        <item>Mikrorayon Zarechny</item>
+        <item>Mikrorayon Laguna</item>
+        <item>Mikrorayon Yuzhny</item>
+        <item>Mitki</item>
+        <item>Mitskevicha</item>
+        <item>Molodezhnaya</item>
+        <item>MOPRa</item>
+        <item>Moskovskoe shosse</item>
+        <item>Mostovaya</item>
+        <item>Moshenskogo</item>
+        <item>Muzey Zh/d tekhniki</item>
+        <item>Muzey spasennykh tsennostey</item>
+        <item>Mukhavetskaya</item>
+        <item>Mytnaya</item>
+        <item>Myasokombinat</item>
+        <item>Nadezhda</item>
+        <item>Novaya</item>
+        <item>Novoselskaya</item>
+        <item>Novye Zadvortsy</item>
+        <item>Novye Kozlovichi</item>
+        <item>OAO Brestskoe pivo</item>
+        <item>Oblastnaya bolnitsa</item>
+        <item>Observatoriya</item>
+        <item>Ovoschebaza</item>
+        <item>Ozyornaya</item>
+        <item>Ozero</item>
+        <item>Oktabrskoy revolyutsii</item>
+        <item>Orlovskaya</item>
+        <item>Osipenko</item>
+        <item>Park 1 MAYA</item>
+        <item>Park tysyacheletiya</item>
+        <item>Partizanskiy prospekt</item>
+        <item>Perekrestok</item>
+        <item>Pereulok 9 Kalinovyy</item>
+        <item>Pereulok Esenina</item>
+        <item>Pereulok Kalinovyy</item>
+        <item>Petrovichi</item>
+        <item>Pionerskaya</item>
+        <item>Ploshchad Lenina</item>
+        <item>Povorot Zhemchuzhina</item>
+        <item>Povorot Koverdyaki</item>
+        <item>Povorot Kozlovichi</item>
+        <item>Povorot Shebrin</item>
+        <item>Podgorodskaya</item>
+        <item>Podsobnoe khozyaystvo</item>
+        <item>Pozharnoe depo</item>
+        <item>Poliklinika</item>
+        <item>Pochta</item>
+        <item>Pribuzhskaya</item>
+        <item>Privokzalnaya</item>
+        <item>Prigorodnaya</item>
+        <item>Prigorodny vokzal</item>
+        <item>Prigranichnaya</item>
+        <item>Proleskovaya</item>
+        <item>Promstroybank</item>
+        <item>Promtekhnika</item>
+        <item>Pronyagina</item>
+        <item>Prospekt Masherova</item>
+        <item>Prospekt Respubliki</item>
+        <item>Profsouznaya</item>
+        <item>PSO</item>
+        <item>Pugachevo</item>
+        <item>Punkt podgotovki vagonov</item>
+        <item>Pushkinskaya</item>
+        <item>Raduzhnaya</item>
+        <item>Rakitnitsa</item>
+        <item>Rembytekhnika</item>
+        <item>Respublikanskaya</item>
+        <item>Rechitskaya</item>
+        <item>Rokossovskogo</item>
+        <item>Rynok "LAGUNA"</item>
+        <item>Rynkovka</item>
+        <item>Ryabinovaya</item>
+        <item>s/t Berezka</item>
+        <item>s/t Dorozhnik</item>
+        <item>s/t Zhemchuzhina</item>
+        <item>s/t Zarechye</item>
+        <item>s/t Raduga</item>
+        <item>s/t Rosinka</item>
+        <item>s/t Svetlyachok</item>
+        <item>s/t Signal</item>
+        <item>s/t Sunitsa</item>
+        <item>s/t Syabry</item>
+        <item>s/t Flora</item>
+        <item>s/t Yuzhnoe 1</item>
+        <item>s/t Yuzhnoe 2</item>
+        <item>Savushkin produkt</item>
+        <item>Sadovaya</item>
+        <item>Salnikova</item>
+        <item>Santa</item>
+        <item>Santa Bremor</item>
+        <item>Santa-53</item>
+        <item>Santa-54</item>
+        <item>Sverdlova</item>
+        <item>Sverdlova\nprib.</item>
+        <item>Svetlaya</item>
+        <item>Svobody</item>
+        <item>Serafima Sarovskogo</item>
+        <item>Sikorskogo</item>
+        <item>Sirenevaya</item>
+        <item>Skver Ikonnikova</item>
+        <item>Skripnikova</item>
+        <item>Slavneft</item>
+        <item>Smirnova</item>
+        <item>Sovetskaya</item>
+        <item>Sovetskoy konstitutsii</item>
+        <item>Sosnovaya</item>
+        <item>Soya</item>
+        <item>Sportshkola</item>
+        <item>Srednyaya Shkola №1</item>
+        <item>Stadion Brestskiy</item>
+        <item>Stadion Lokomotiv</item>
+        <item>Stadion Stroitel</item>
+        <item>Stantsiya yunnatov</item>
+        <item>Starye Zadvortsy</item>
+        <item>Stafeeva</item>
+        <item>Stimovo</item>
+        <item>STO-2</item>
+        <item>Stroitelnaya</item>
+        <item>Stroitelnyy rynok</item>
+        <item>SSh №32</item>
+        <item>SSh №33</item>
+        <item>SEZ Brest</item>
+        <item>TD IDEAL</item>
+        <item>Teatr</item>
+        <item>Telmy</item>
+        <item>Telmy-1</item>
+        <item>Tenistaya</item>
+        <item>Tekhnicheskiy universitet</item>
+        <item>Tikhaya</item>
+        <item>Torgovyy tsentr Vostok</item>
+        <item>Transportnaya</item>
+        <item>Trolleybusnyy park</item>
+        <item>Trudovaya</item>
+        <item>Telmovskiy les</item>
+        <item>TETs</item>
+        <item>Tyukhinichi</item>
+        <item>Universitet</item>
+        <item>Urozhaynaya</item>
+        <item>Uchilishche olimpiyskogo rezerva</item>
+        <item>Uchitelskaya</item>
+        <item>Fedkovichi</item>
+        <item>FOK</item>
+        <item>Fort</item>
+        <item>Khaby</item>
+        <item>Khlebprom</item>
+        <item>Khram "Vsetsaritsa"</item>
+        <item>Tsvetotron</item>
+        <item>TsGB</item>
+        <item>Tsentralnaya</item>
+        <item>Tsentralnyy rynok</item>
+        <item>TsMT</item>
+        <item>TsUM</item>
+        <item>Cherninskaya</item>
+        <item>Chernyanskaya</item>
+        <item>Chulochnyy kombinat</item>
+        <item>Shafranovaya</item>
+        <item>Shkola</item>
+        <item>Shkolnaya</item>
+        <item>Shosseynaya</item>
+        <item>Schegliki-1</item>
+        <item>Elektroseti</item>
+        <item>Yubileynaya</item>
+        <item>Yamno</item>
+        <item>Yanki Kupaly</item>
+        <item>Yasenevaya</item>
+        <item>Yasnogorskaya</item>
+    </string-array>
+
+    <string-array name="stop_fullness">
+        <item>Empty</item>
+        <item>~7 people</item>
+        <item>~15 people</item>
+        <item>~20 people</item>
+        <item>Full</item>
+    </string-array>
+
+    <string-array name="transport_options">
+        <item>Bus</item>
+        <item>Articulated bus</item>
+        <item>Small bus</item>
+        <item>Trolleybus</item>
+        <item>Minibus</item>
+    </string-array>
+
+    <string-array name="transport_fullness">
+        <item>Almost or completely empty</item>
+        <item>Half of the seats are occupied</item>
+        <item>All seats are occupied</item>
+        <item>All seats and half of standing places are occupied</item>
+        <item>Full</item>
+    </string-array>
+
+    <string-array name="bus_options">
+        <item>1</item>
+        <item>1А</item>
+        <item>2</item>
+        <item>2А</item>
+        <item>3</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>11А</item>
+        <item>12</item>
+        <item>12А</item>
+        <item>13</item>
+        <item>13А</item>
+        <item>14</item>
+        <item>14Б</item>
+        <item>14Ш</item>
+        <item>15А</item>
+        <item>15Б</item>
+        <item>15В</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>21А</item>
+        <item>21Б</item>
+        <item>22</item>
+        <item>23</item>
+        <item>23А</item>
+        <item>23Б</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>29</item>
+        <item>30</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>37А</item>
+        <item>38</item>
+        <item>39</item>
+        <item>39А</item>
+        <item>39Б</item>
+        <item>41</item>
+        <item>42</item>
+        <item>44</item>
+        <item>44А</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>77</item>
+    </string-array>
+
+    <string-array name="trolleybus_options">
+        <item>100</item>
+        <item>101</item>
+        <item>101А</item>
+        <item>102</item>
+        <item>103</item>
+        <item>104</item>
+        <item>105</item>
+        <item>106</item>
+        <item>106А</item>
+        <item>107</item>
+        <item>108</item>
+        <item>108А</item>
+        <item>110</item>
+    </string-array>
+
+    <string-array name="minibus_options">
+        <item>№1</item>
+        <item>№2</item>
+        <item>№4</item>
+        <item>№5</item>
+        <item>№6</item>
+        <item>№7</item>
+        <item>№9</item>
+        <item>№10</item>
+        <item>№12</item>
+        <item>№15</item>
+        <item>№17</item>
+        <item>№18</item>
+        <item>№19</item>
+        <item>№20</item>
+        <item>№21</item>
+        <item>№23</item>
+        <item>№25</item>
+        <item>№35</item>
+    </string-array>
+
+</resources>

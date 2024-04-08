@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/historyFirstLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/historyTransportType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="temptext"/>
+
+        <TextView
+            android:id="@+id/historyTransportNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold"
+            android:text="temptext"/>
+
+        <TextView
+            android:id="@+id/historyTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="temptext"/>
+
+        <Button
+            android:id="@+id/buttonHistoryDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/button_history_delete" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/historyTransportFullness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historyFirstLine"
+        android:text="temptext"/>
+
+    <LinearLayout
+        android:id="@+id/historySecondLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/historyTransportFullness">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_item_in"/>
+
+        <TextView
+            android:id="@+id/historyPassengersIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold"
+            android:text="temptext"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/history_item_out"
+            android:layout_weight="1"
+            android:gravity="end"/>
+
+        <TextView
+            android:id="@+id/historyPassengersOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold"
+            android:text="temptext"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/historyStopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historySecondLine"
+        />
+
+    <TextView
+        android:id="@+id/historyStopFullness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historyStopName"/>
+</RelativeLayout>

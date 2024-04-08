@@ -1,0 +1,515 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="registration_name">Регистрация</string>
+    <string name="editText_name">Введите имя</string>
+    <string name="editText_surname">Введите фамилию</string>
+    <string name="editText_patronymic">Введите отчество</string>
+    <string name="editText_googleURL">Введите URL гугл диска</string>
+    <string name="button_login">Войти</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_languageEn">En</string>
+    <string name="button_languageRu">Ru</string>
+    <string name="description_add_data">to_add_data</string>
+    <string name="description_registration">to_registration</string>
+    <string name="description_history">to_history></string>
+
+    <string name="add_data_name">Фиксация</string>
+    <string name="description_scrollview">add_data</string>
+    <string name="editText_bus_stop_name">Введите название остановки</string>
+    <string name="drop_down_menu_bus_stop">Выберите остановку</string>
+    <string name="drop_down_menu_bus_stop_fullness">Выберите заполненность остановки</string>
+    <string name="drop_down_menu_transport_type">Выберите тип транспорта</string>
+    <string name="drop_down_menu_fullness">Оцените заполненность транспорта</string>
+    <string name="drop_down_menu_bus_number">Выберите номер маршрута</string>
+    <string name="editText_num_in">Введите число вошедших пасажиров</string>
+    <string name="editText_num_out">Введите число вышедших пасажиров</string>
+    <string name="description_camera">make_photo</string>
+    <string name="description_photo">last_photo</string>
+    <string name="button_send">Сохранить</string>
+    <string name="button_clear">Очистить</string>
+
+    <string name="history_name">История</string>
+    <string name="data_saved">Сделано записей:</string>
+    <string name="data_sent">Отправлено записей:</string>
+
+    <string name="history_item_out">Вышло:</string>
+    <string name="history_item_in">Вошло:</string>
+    <string name="button_history_delete">Удалить</string>
+    <string name="button_history_send_data">Отправить</string>
+
+    <string-array name = "stop_options">
+        <item>Остановка</item>
+        <item>28 июля</item>
+        <item>4-й Форт</item>
+        <item>Абрикосовая</item>
+        <item>Автобаза связи</item>
+        <item>Автовокзал</item>
+        <item>Автолюбителей</item>
+        <item>Авторынок</item>
+        <item>Автошкола</item>
+        <item>Агротранс</item>
+        <item>Адамковская</item>
+        <item>АК Жабинка</item>
+        <item>Амбулатория</item>
+        <item>АП</item>
+        <item>Аркадия</item>
+        <item>Аэродромная</item>
+        <item>база «Рыбторг»</item>
+        <item>Бауманская</item>
+        <item>Безымянная</item>
+        <item>Беларусбанк</item>
+        <item>Беловежская</item>
+        <item>Белорусская</item>
+        <item>Белтелеком</item>
+        <item>Белтранс Ойл</item>
+        <item>Белцветмет</item>
+        <item>Береговая</item>
+        <item>Березовая роща</item>
+        <item>Березовка</item>
+        <item>Бернады</item>
+        <item>Бехтерева</item>
+        <item>Благовещенского</item>
+        <item>Боброва</item>
+        <item>Богдановича</item>
+        <item>Богданчука</item>
+        <item>Больница</item>
+        <item>Бориса Маслова</item>
+        <item>Брест Восточный</item>
+        <item>Брест Западный</item>
+        <item>Брестглавснаб</item>
+        <item>Брестоблавтотранс</item>
+        <item>Брестсельстрой</item>
+        <item>Брестских дивизий</item>
+        <item>БТИ</item>
+        <item>БТК</item>
+        <item>Бульвар Космонавтов</item>
+        <item>Бульвар Шевченко</item>
+        <item>Булькова</item>
+        <item>БЭТЗ</item>
+        <item>ВамРад</item>
+        <item>Варшавский рынок</item>
+        <item>Варшавское шоссе</item>
+        <item>Вересковая</item>
+        <item>Веселая</item>
+        <item>Ветлечебница</item>
+        <item>Ветренная</item>
+        <item>Внештранс</item>
+        <item>Водозабор</item>
+        <item>Водоканал</item>
+        <item>Воинов-интернационалистов</item>
+        <item>Волгоградская</item>
+        <item>Волынка</item>
+        <item>Восточная</item>
+        <item>Восточный микрорайон</item>
+        <item>Вульковская</item>
+        <item>Гаврилова</item>
+        <item>Гагарина</item>
+        <item>Газоаппарат</item>
+        <item>Гаражи ОПC</item>
+        <item>Гастелло</item>
+        <item>Гвардейская</item>
+        <item>Георгиевская</item>
+        <item>Гершоны</item>
+        <item>Гефест-Кварц</item>
+        <item>Гимназия №1</item>
+        <item>Гоголя</item>
+        <item>Гоздецкого</item>
+        <item>Городская</item>
+        <item>Городская больница №1</item>
+        <item>ГОРТОП</item>
+        <item>Гостиница Беларусь</item>
+        <item>Гостиница Дружба</item>
+        <item>Гостиница Юность</item>
+        <item>Гребной канал</item>
+        <item>Грибоедова</item>
+        <item>Грюнвальдская</item>
+        <item>Гузнянская</item>
+        <item>Дворец спорта Виктория</item>
+        <item>Дворникова</item>
+        <item>Дворцовая</item>
+        <item>Деревня Плоска</item>
+        <item>Десантная</item>
+        <item>Детский городок</item>
+        <item>Добрая</item>
+        <item>Дом ветеранов</item>
+        <item>ДП "ДС "Виктория" отпр.</item>
+        <item>ДП "ДС Виктория" приб.</item>
+        <item>ДП "Цветотрон"</item>
+        <item>ДП "Южный городок"</item>
+        <item>ДС Виктория</item>
+        <item>ДС Областная больница</item>
+        <item>ДСУ</item>
+        <item>Дубровка</item>
+        <item>Есенина</item>
+        <item>Ж/Д колледж</item>
+        <item>Жукова</item>
+        <item>Завод</item>
+        <item>Завод бытовой химии</item>
+        <item>Загородная</item>
+        <item>Загороднева</item>
+        <item>Заречная</item>
+        <item>Защитников Отечества</item>
+        <item>Зеленая</item>
+        <item>Зона отдыха</item>
+        <item>Зубачёва</item>
+        <item>Инволюкс</item>
+        <item>Инко Фуд</item>
+        <item>Интертранс</item>
+        <item>Интурист</item>
+        <item>Калиновая</item>
+        <item>Карасева</item>
+        <item>Карла Маркса</item>
+        <item>Картодром</item>
+        <item>Карьерная</item>
+        <item>Катин Бор</item>
+        <item>Кедровая</item>
+        <item>Киевская</item>
+        <item>Кирпичная</item>
+        <item>Кладбище</item>
+        <item>Кладбище Плоска</item>
+        <item>Кладбище Северное</item>
+        <item>Клары Цеткин</item>
+        <item>Клейники</item>
+        <item>Клейниковская</item>
+        <item>Ковалево</item>
+        <item>Ковельская</item>
+        <item>Ковельское шоссе</item>
+        <item>Ковры Бреста</item>
+        <item>Колесника</item>
+        <item>Колледж торговли</item>
+        <item>Кольцевая</item>
+        <item>Комсомольская</item>
+        <item>Костюшко</item>
+        <item>Котельня-Боярская</item>
+        <item>Красногвардейская</item>
+        <item>Краснознаменная</item>
+        <item>Красный двор</item>
+        <item>Крепость</item>
+        <item>Криштофовича</item>
+        <item>Крушинская</item>
+        <item>КСМ</item>
+        <item>Купальская</item>
+        <item>Ландшафтная</item>
+        <item>Лейтенанта Акимочкина</item>
+        <item>Лейтенанта Рябцева</item>
+        <item>Ленина</item>
+        <item>Ленинградская</item>
+        <item>Летная</item>
+        <item>Лицей</item>
+        <item>Луговая</item>
+        <item>Луцкая</item>
+        <item>Лысая гора</item>
+        <item>Магазин</item>
+        <item>Магазин "Продтовары"</item>
+        <item>Магазин "Северный"</item>
+        <item>Матросова</item>
+        <item>Махновича</item>
+        <item>Машиностроительный завод</item>
+        <item>Маяковского</item>
+        <item>Медицинская</item>
+        <item>Медицинский Комплекс</item>
+        <item>Медицинский Центр ЛОДЭ</item>
+        <item>Микрорайон Вулька</item>
+        <item>Микрорайон Заречный</item>
+        <item>Микрорайон Лагуна</item>
+        <item>Микрорайон Южный</item>
+        <item>Митьки</item>
+        <item>Мицкевича</item>
+        <item>Молодёжная</item>
+        <item>МОПРа</item>
+        <item>Московское шоссе</item>
+        <item>Мостовая</item>
+        <item>Мошенского</item>
+        <item>Музей Ж/д техники</item>
+        <item>Музей спасённых ценностей</item>
+        <item>Мухавецкая</item>
+        <item>Мытная</item>
+        <item>Мясокомбинат</item>
+        <item>Надежда</item>
+        <item>Новая</item>
+        <item>Новосельская</item>
+        <item>Новые Задворцы</item>
+        <item>Новые Козловичи</item>
+        <item>ОАО Брестское пиво</item>
+        <item>Областная больница</item>
+        <item>Обсерватория</item>
+        <item>Овощебаза</item>
+        <item>Озёрная</item>
+        <item>Озеро</item>
+        <item>Октябрьской революции</item>
+        <item>Орловская</item>
+        <item>Осипенко</item>
+        <item>Парк 1 МАЯ</item>
+        <item>Парк тысячелетия</item>
+        <item>Партизанский проспект</item>
+        <item>Перекресток</item>
+        <item>Переулок 9 Калиновый</item>
+        <item>Переулок Есенина</item>
+        <item>Переулок Калиновый</item>
+        <item>Петровичи</item>
+        <item>Пионерская</item>
+        <item>Площадь Ленина</item>
+        <item>Поворот Жемчужина</item>
+        <item>Поворот Ковердяки</item>
+        <item>Поворот Козловичи</item>
+        <item>Поворот Шебрин</item>
+        <item>Подгородская</item>
+        <item>Подсобное хозяйство</item>
+        <item>Пожарное депо</item>
+        <item>Поликлиника</item>
+        <item>Почта</item>
+        <item>Прибужская</item>
+        <item>Привокзальная</item>
+        <item>Пригородная</item>
+        <item>Пригородный вокзал</item>
+        <item>Приграничная</item>
+        <item>Пролесковая</item>
+        <item>Промстройбанк</item>
+        <item>Промтехника</item>
+        <item>Пронягина</item>
+        <item>Проспект Машерова</item>
+        <item>Проспект Республики</item>
+        <item>Профсоюзная</item>
+        <item>ПСО</item>
+        <item>Пугачево</item>
+        <item>Пункт подготовки вагонов</item>
+        <item>Пушкинская</item>
+        <item>Радужная</item>
+        <item>Ракитница</item>
+        <item>Рембыттехника</item>
+        <item>Республиканская</item>
+        <item>Речицкая</item>
+        <item>Рокоссовского</item>
+        <item>Рынок "ЛАГУНА"</item>
+        <item>Рыньковка</item>
+        <item>Рябиновая</item>
+        <item>с/т Березка</item>
+        <item>с/т Дорожник</item>
+        <item>с/т Жемчужина</item>
+        <item>с/т Заречье</item>
+        <item>с/т Радуга</item>
+        <item>с/т Росинка</item>
+        <item>с/т Светлячок</item>
+        <item>с/т Сигнал</item>
+        <item>с/т Суница</item>
+        <item>с/т Сябры</item>
+        <item>с/т Флора</item>
+        <item>с/т Южное 1</item>
+        <item>с/т Южное 2</item>
+        <item>Савушкин продукт</item>
+        <item>Садовая</item>
+        <item>Сальникова</item>
+        <item>Санта</item>
+        <item>Санта Бремор</item>
+        <item>Санта-53</item>
+        <item>Санта-54</item>
+        <item>Свердлова</item>
+        <item>Свердлова\nприб.</item>
+        <item>Светлая</item>
+        <item>Свободы</item>
+        <item>Серафима Саровского</item>
+        <item>Сикорского</item>
+        <item>Сиреневая</item>
+        <item>Сквер Иконникова</item>
+        <item>Скрипникова</item>
+        <item>Славнефть</item>
+        <item>Смирнова</item>
+        <item>Советская</item>
+        <item>Советской конституции</item>
+        <item>Сосновая</item>
+        <item>Соя</item>
+        <item>Спортшкола</item>
+        <item>Средняя Школа №1</item>
+        <item>Стадион Брестский</item>
+        <item>Стадион Локомотив</item>
+        <item>Стадион Строитель</item>
+        <item>Станция юннатов</item>
+        <item>Старые Задворцы</item>
+        <item>Стафеева</item>
+        <item>Стимово</item>
+        <item>СТО-2</item>
+        <item>Строительная</item>
+        <item>Строительный рынок</item>
+        <item>СШ №32</item>
+        <item>СШ №33</item>
+        <item>СЭЗ Брест</item>
+        <item>ТД ИДЕАЛ</item>
+        <item>Театр</item>
+        <item>Тельмы</item>
+        <item>Тельмы-1</item>
+        <item>Тенистая</item>
+        <item>Технический университет</item>
+        <item>Тихая</item>
+        <item>Торговый центр Восток</item>
+        <item>Транспортная</item>
+        <item>Троллейбусный парк</item>
+        <item>Трудовая</item>
+        <item>Тэльмовский лес</item>
+        <item>ТЭЦ</item>
+        <item>Тюхиничи</item>
+        <item>Университет</item>
+        <item>Урожайная</item>
+        <item>Училище олимпийского резерва</item>
+        <item>Учительская</item>
+        <item>Федьковичи</item>
+        <item>ФОК</item>
+        <item>Форт</item>
+        <item>Хабы</item>
+        <item>Хлебпром</item>
+        <item>Храм "Всецарица"</item>
+        <item>Цветотрон</item>
+        <item>ЦГБ</item>
+        <item>Центральная</item>
+        <item>Центральный рынок</item>
+        <item>ЦМТ</item>
+        <item>ЦУМ</item>
+        <item>Чернинская</item>
+        <item>Чернянская</item>
+        <item>Чулочный комбинат</item>
+        <item>Шафрановая</item>
+        <item>Школа</item>
+        <item>Школьная</item>
+        <item>Шоссейная</item>
+        <item>Щеглики-1</item>
+        <item>Электросети</item>
+        <item>Юбилейная</item>
+        <item>Ямно</item>
+        <item>Янки Купалы</item>
+        <item>Ясеневая</item>
+        <item>Ясногорская</item>
+    </string-array>
+
+    <string-array name="stop_fullness">
+        <item>Заполненость</item>
+        <item>Пустая</item>
+        <item>~7 человек</item>
+        <item>~15 человек</item>
+        <item>~20 человек</item>
+        <item>Переполненная</item>
+    </string-array>
+    <string-array name="error_optins">
+        <item>Выберите тип транспорта</item>
+    </string-array>
+    <string-array name="transport_options">
+        <item>Автобус</item>
+        <item>Сочлененный автобус </item>
+        <item>Микроавтобус</item>
+        <item>Троллейбус</item>
+        <item>Маршрутка</item>
+    </string-array>
+
+    <string-array name="transport_fullness">
+        <item>Заполненость</item>
+        <item>Почти или полностью пустой</item>
+        <item>Занята половина сидячих мест</item>
+        <item>Заняты все сидячие места</item>
+        <item>заняты все сидячие и половина стоячих мест</item>
+        <item>Нет места</item>
+    </string-array>
+
+    <string-array name="bus_options">
+        <item>Номер маршрута</item>
+        <item>1</item>
+        <item>1А</item>
+        <item>2</item>
+        <item>2А</item>
+        <item>3</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>11А</item>
+        <item>12</item>
+        <item>12А</item>
+        <item>13</item>
+        <item>13А</item>
+        <item>14</item>
+        <item>14Б</item>
+        <item>14Ш</item>
+        <item>15А</item>
+        <item>15Б</item>
+        <item>15В</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>21А</item>
+        <item>21Б</item>
+        <item>22</item>
+        <item>23</item>
+        <item>23А</item>
+        <item>23Б</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>29</item>
+        <item>30</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>37А</item>
+        <item>38</item>
+        <item>39</item>
+        <item>39А</item>
+        <item>39Б</item>
+        <item>41</item>
+        <item>42</item>
+        <item>44</item>
+        <item>44А</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>77</item>
+    </string-array>
+
+    <string-array name="trolleybus_options">
+        <item>Номер маршрута</item>
+        <item>100</item>
+        <item>101</item>
+        <item>101А</item>
+        <item>102</item>
+        <item>103</item>
+        <item>104</item>
+        <item>105</item>
+        <item>106</item>
+        <item>106А</item>
+        <item>107</item>
+        <item>108</item>
+        <item>108А</item>
+        <item>110</item>
+    </string-array>
+
+    <string-array name="minibus_options">
+        <item>Номер маршрута</item>
+        <item>№1</item>
+        <item>№2</item>
+        <item>№4</item>
+        <item>№5</item>
+        <item>№6</item>
+        <item>№7</item>
+        <item>№9</item>
+        <item>№10</item>
+        <item>№12</item>
+        <item>№15</item>
+        <item>№17</item>
+        <item>№18</item>
+        <item>№19</item>
+        <item>№20</item>
+        <item>№21</item>
+        <item>№23</item>
+        <item>№25</item>
+        <item>№35</item>
+    </string-array>
+</resources>
