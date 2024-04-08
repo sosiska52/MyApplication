@@ -40,18 +40,8 @@ public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
     public void delete(int position){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("Saves", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        //Toast.makeText(.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-        editor.remove(String.valueOf(position+1));
+        editor.remove(String.valueOf(position));
         editor.apply();
-//        Map<String, ?> allEntries = sharedPreferences.getAll();
-//        int sizeKeys = allEntries.size();
-//        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-//            Object value = entry.getValue();
-//            if(entry.getValue().toString().equals("fd")){
-//                editor.remove(entry.getKey());
-//                editor.apply();
-//            }
-//        }
         historyList.remove(position);
         notifyDataSetChanged();
     }

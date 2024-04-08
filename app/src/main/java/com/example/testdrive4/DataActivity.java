@@ -375,7 +375,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 Map<String, ?> allEntries = sharedPreferences.getAll();
                 int sizeKeys = allEntries.size();
                 //Toast.makeText(DataActivity.this, ""+sizeKeys, Toast.LENGTH_SHORT).show();
-                editor.putString("" + (sizeKeys + 1), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
+                editor.putString("" + (sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
                 editor.apply();
                 java.io.File csvFileDir = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
