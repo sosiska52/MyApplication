@@ -281,7 +281,7 @@ private void saveImage(byte[] bytes) throws IOException {
     if (pictureFile != null) {
         try (FileOutputStream fos = new FileOutputStream(pictureFile)) {
             rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos); // Сохраняем повернутое изображение
-            Toast.makeText(CameraActivity.this, "Image saved: " + pictureFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CameraActivity.this, "Image saved: " + pictureFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
         }
     }
     startDataActivity();

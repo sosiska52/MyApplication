@@ -49,6 +49,7 @@ public class HistoryActivity extends AppCompatActivity {
     private static final String TAG = "Historyctivity";
     private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1001;
     private static final int REQUEST_CODE_SIGN_IN = 1;
+    private int position =0;
     private Drive mDriveService;
     private ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
 
@@ -71,7 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
                 String selectedItem = (String) parent.getItemAtPosition(position);
 
                 // Выводим сообщение с текстом выбранного элемента
-                Toast.makeText(HistoryActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HistoryActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,7 +91,7 @@ public class HistoryActivity extends AppCompatActivity {
         int sizeKeys = allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
-            Toast.makeText(HistoryActivity.this, entry.getKey().toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(HistoryActivity.this, entry.getKey().toString(), Toast.LENGTH_SHORT).show();
             takeInfoFromCSV(value.toString());
 
         }
@@ -150,9 +151,34 @@ public class HistoryActivity extends AppCompatActivity {
     }
     private void clearShared(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+        java.io.File mediaStorageDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        java.io.File csvFileDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
+        // Очистить папку с изображениями
+        if (mediaStorageDir.exists() && mediaStorageDir.isDirectory()) {
+            java.io.File[] imageFiles = mediaStorageDir.listFiles();
+            if (imageFiles != null) {
+                for (java.io.File imageFile : imageFiles) {
+                    imageFile.delete();
+                }
+            }
+        }
+
+// Очистить папку с CSV файлами
+        if (csvFileDir.exists() && csvFileDir.isDirectory()) {
+            java.io.File[] csvFiles = csvFileDir.listFiles();
+            if (csvFiles != null) {
+                for (java.io.File csvFile : csvFiles) {
+                    csvFile.delete();
+                }
+            }
+        }
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+
     }
     private void requestSignIn() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -180,9 +206,10 @@ public class HistoryActivity extends AppCompatActivity {
         int sizeKeys = allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
+            position=Integer.parseInt(entry.getKey().toString());
             uploadImageToDrive(value.toString());
         }
-        
+    Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
     }
     private void uploadImageToDrive(String fileNames) {
         if (mDriveService!=null) {
@@ -210,9 +237,15 @@ public class HistoryActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // Выполняем загрузку изображения и CSV файла
+            // Выполняем загрузку изображения и CSV файлаe
             if (imageContent != null && csvContent != null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
+                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(String.valueOf(position+1));
+                editor.apply();
+                imageFile.delete();
+                csvFile.delete();
             } else {
                 Toast.makeText(HistoryActivity.this, "Failed to load image or CSV file", Toast.LENGTH_SHORT).show();
             }
@@ -260,7 +293,7 @@ public class HistoryActivity extends AppCompatActivity {
         protected void onPostExecute(String fileId) {
             super.onPostExecute(fileId);
             if (fileId != null) {
-                Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
