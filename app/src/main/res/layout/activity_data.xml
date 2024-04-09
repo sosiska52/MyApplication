@@ -53,8 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor = "@color/black"
-                android:padding="15dp"
-                style="@style/MySpinnerStyle" />
+                android:padding="15dp" />
         </LinearLayout>
 
 
@@ -84,7 +83,6 @@
                 android:layout_gravity="center"
                 android:textColor = "@color/black"
                 android:padding="15dp"
-                style="@style/MySpinnerStyle"
                 />
         </LinearLayout>
 
@@ -116,7 +114,6 @@
                 android:layout_gravity="center"
                 android:textColor = "@color/black"
                 android:padding="15dp"
-                style="@style/MySpinnerStyle"
                 />
 
             <TextView
@@ -135,7 +132,6 @@
                 android:layout_gravity="center"
                 android:textColor = "@color/black"
                 android:padding="15dp"
-                style="@style/MySpinnerStyle"
                 />
 
             <TextView
@@ -154,7 +150,6 @@
                 android:layout_gravity="center"
                 android:textColor = "@color/black"
                 android:padding="15dp"
-                style="@style/MySpinnerStyle"
                 />
 
             <EditText
