@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Passenger traffic forecasting</string>
+    <string name="app_name">Passenger traffic</string>
 
     <string name="registration_name">Registration</string>
     <string name="editText_name">Enter name</string>
     <string name="editText_surname">Enter surname</string>
     <string name="editText_patronymic">Enter patronymic</string>
     <string name="editText_googleURL">Enter google disk URL</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Log in Gmail</string>
     <string name="button_save">Save</string>
     <string name="button_languageEn">En</string>
     <string name="button_languageRu">Ru</string>
