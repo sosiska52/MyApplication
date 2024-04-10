@@ -84,6 +84,12 @@ public class HistoryActivity extends AppCompatActivity {
         findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
         findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> clearShared());
         requestSignIn();
+        SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+        int sizeKeys = allEntries.size();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Toast.makeText(HistoryActivity.this, entry.getKey().toString()+" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
+        }
     }
     private void makeListView(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
@@ -243,7 +249,7 @@ public class HistoryActivity extends AppCompatActivity {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(String.valueOf(position+1));
+                editor.remove(String.valueOf(position));
                 editor.apply();
                 imageFile.delete();
                 csvFile.delete();
