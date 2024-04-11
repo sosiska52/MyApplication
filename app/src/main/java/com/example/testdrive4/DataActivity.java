@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     private ImageView imageView;
     private ArrayAdapter<CharSequence> adapterPath,adapterStop,adapterStopFullness,
             adapterTransportFullness,adapterTransport;
+    AutoCompleteTextView textStop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,23 +59,28 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerPath = findViewById(R.id.spinIdPathNumber);
         spinnerStopFullness = findViewById(R.id.spinIdStopFullness);
         spinnerTransportFullness = findViewById(R.id.spinIdTransportFullness);
-        //
-        adapterStop = ArrayAdapter.createFromResource(this,
-                R.array.stop_options, android.R.layout.simple_spinner_item);
-        adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerStop.setAdapter(adapterStop);
-        spinnerStop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //String selectedItem = (String) parent.getItemAtPosition(position);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Обработка, если ни один элемент не выбран
-            }
-        });
-        //
+        ArrayAdapter<String> adapterStop = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+        textStop = (AutoCompleteTextView)
+                findViewById(R.id.autoCompleteTextView);
+        textStop.setAdapter(adapterStop);
+//        adapterStop = ArrayAdapter.createFromResource(this,
+//                R.array.stop_options, android.R.layout.simple_spinner_item);
+//        adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerStop.setAdapter(adapterStop);
+//        spinnerStop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                //String selectedItem = (String) parent.getItemAtPosition(position);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Обработка, если ни один элемент не выбран
+//            }
+//        });
+
         adapterStopFullness = ArrayAdapter.createFromResource(this,
                 R.array.stop_fullness, android.R.layout.simple_spinner_item);
         adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -152,7 +159,8 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         super.onPause();
         SharedPreferences sharedPreferences = getSharedPreferences("DataPause", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("spinnerStop", spinnerStop.getSelectedItem().toString());
+        //editor.putString("spinnerStop", spinnerStop.getSelectedItem().toString());
+        editor.putString("textStop", textStop.toString());
         editor.putString("spinnerStopFullness", spinnerStopFullness.getSelectedItem().toString());
         editor.putString("spinnerPath", spinnerPath.getSelectedItem().toString());
         editor.putString("spinnerTransport", spinnerTransport.getSelectedItem().toString());
@@ -169,7 +177,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         // Получаем значения из SharedPreferences
         String passengersOut = sharedPreferences.getString("editTextPassengersOut", "");
         String passengersIn = sharedPreferences.getString("editTextPassengersIn", "");
-        String selectedStop = sharedPreferences.getString("spinnerStop", "");
+        String stop = sharedPreferences.getString("textStop", "");
         String selectedStopFullness = sharedPreferences.getString("spinnerStopFullness", "");
         String selectedPath = sharedPreferences.getString("spinnerPath", "");
         String selectedTransport = sharedPreferences.getString("spinnerTransport", "");
@@ -183,11 +191,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         if (!passengersIn.isEmpty()) {
             editTextPassengersIn.setText(passengersIn);
         }
-
-        int stopIndex = adapterStop.getPosition(selectedStop);
-        if (stopIndex != -1) {
-            spinnerStop.setSelection(stopIndex);
+        if (!stop.isEmpty()) {
+            textStop.setText(stop);
         }
+
 
         int stopFullnessIndex = adapterStopFullness.getPosition(selectedStopFullness);
         if (stopFullnessIndex != -1) {
@@ -314,7 +321,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     }
     private boolean checkFields(){
         Resources res = getResources();
-        if(spinnerStop.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_options)[0])) {
+        if(textStop.getText().toString().equals("")) {
             //findViewById(R.id.)
             return false;
         }
@@ -359,7 +366,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     writer.append("Время" + "," + "Индетификатор" + "," + "Название остановки" + "," + "GPS-широта" + "," + "GPS-долгота" + "," +
                             "Высота места над уровнем моря" + "," + "Число пассажиров на остановке" + "," + "Номер маршрута транспортного средства" +
                             "," + "Тип транспорта" + "," + "Степень заполненности транспортного средства" + "," + "Число вошедших пассажиров" + "," + "Число вышедших пассажиров" + "\n");
-                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").append(spinnerStop.getSelectedItem().toString()).append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).append(",").append(spinnerPath.getSelectedItem().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).append(",").append(editTextPassengersIn.getText().toString());
+                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").append(textStop.getText().toString()).append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).append(",").append(spinnerPath.getSelectedItem().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).append(",").append(editTextPassengersIn.getText().toString());
                     writer.close();
                     SharedPreferences sharedHistoryInfo = getSharedPreferences("HistoryInfo",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor2 = sharedHistoryInfo.edit();
