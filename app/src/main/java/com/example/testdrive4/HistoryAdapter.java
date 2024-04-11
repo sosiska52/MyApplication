@@ -7,15 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
 
-    private ArrayList<ArrayList<String>> historyList;
-    private Context mContext;
+    private final ArrayList<ArrayList<String>> historyList;
+    private final Context mContext;
 
     public HistoryAdapter(Context context, ArrayList<ArrayList<String>> historyList) {
         super(context, 0, historyList);
@@ -33,10 +33,6 @@ public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
         return historyList.get(position);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
     public void delete(int position){
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("Saves", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -45,8 +41,9 @@ public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
         historyList.remove(position);
         notifyDataSetChanged();
     }
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if (listItem == null) {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.layout_history, parent, false);

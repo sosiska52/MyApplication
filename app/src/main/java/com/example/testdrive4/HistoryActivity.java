@@ -2,6 +2,7 @@ package com.example.testdrive4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,18 +11,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.Scope;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.ByteArrayContent;
@@ -34,12 +29,10 @@ import com.google.api.services.drive.model.File;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -47,16 +40,15 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HistoryActivity extends AppCompatActivity {
-    private static final String TAG = "Historyctivity";
     private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1001;
-    private static final int REQUEST_CODE_SIGN_IN = 1;
     private int position =0;
     private Drive mDriveService;
-    private ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
     private HistoryAdapter adapter;
+    private int countErrors =0;
 
-    private TextView textViewDataSavedNumber,textViewDataSentNumber;
     private SharedPreferences sharedHistoryInfo;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         sharedHistoryInfo = getSharedPreferences("HistoryInfo", Context.MODE_PRIVATE);
 
-        textViewDataSavedNumber=findViewById(R.id.textViewDataSavedNumber);
-        textViewDataSentNumber=findViewById(R.id.textViewDataSentNumber);
+        TextView textViewDataSavedNumber = findViewById(R.id.textViewDataSavedNumber);
+        TextView textViewDataSentNumber = findViewById(R.id.textViewDataSentNumber);
 
         textViewDataSavedNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Saved",0)));
         textViewDataSentNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Sent",0)));
@@ -75,15 +67,12 @@ public class HistoryActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listViewHistory);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
-                // Получаем текст элемента, на который кликнули
-                String selectedItem = (String) parent.getItemAtPosition(position);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            // Получаем текст элемента, на который кликнули
+            //String selectedItem = (String) parent.getItemAtPosition(position);
 
-                // Выводим сообщение с текстом выбранного элемента
-                //Toast.makeText(HistoryActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
-            }
+            // Выводим сообщение с текстом выбранного элемента
+            //Toast.makeText(HistoryActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
         });
 
 
@@ -96,15 +85,13 @@ public class HistoryActivity extends AppCompatActivity {
         requestSignIn();
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
-        int sizeKeys = allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Toast.makeText(HistoryActivity.this, entry.getKey().toString()+" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(HistoryActivity.this, entry.getKey() +" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
         }
     }
     private void makeListView(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
-        int sizeKeys = allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
             //Toast.makeText(HistoryActivity.this, entry.getKey().toString(), Toast.LENGTH_SHORT).show();
@@ -138,12 +125,9 @@ public class HistoryActivity extends AppCompatActivity {
                     historyItem1.add(data[2]); // Название остановки
                     historyItem1.add(data[6]); // Заполненость остановки
                     historyItems.add(historyItem1); // Добавляем в список
-                } else {
-                    // Логика обработки неправильной строки CSV (например, пропустить или обработать ошибку)
-                }
+                }  // Логика обработки неправильной строки CSV (например, пропустить или обработать ошибку)
+
             //}
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -204,7 +188,7 @@ public class HistoryActivity extends AppCompatActivity {
             GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(
                     this, Collections.singleton(DriveScopes.DRIVE_FILE));
             credential.setSelectedAccount(account.getAccount());
-            HttpTransport httpTransport = null;
+            HttpTransport httpTransport;
             httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
             mDriveService =
                     new Drive.Builder(
@@ -220,13 +204,16 @@ public class HistoryActivity extends AppCompatActivity {
     private void uploadImages(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
-        int sizeKeys = allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
-            position=Integer.parseInt(entry.getKey().toString());
+            position=Integer.parseInt(entry.getKey());
             uploadImageToDrive(value.toString());
         }
-    Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
+        if(countErrors==0) {
+            Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(HistoryActivity.this, countErrors+" Files faild", Toast.LENGTH_SHORT).show();
+        }
     }
     private void uploadImageToDrive(String fileNames) {
         if (mDriveService!=null) {
@@ -255,7 +242,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
 
             // Выполняем загрузку изображения и CSV файлаe
-            if (imageContent != null && csvContent != null) {
+            if (csvContent != null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -270,11 +257,12 @@ public class HistoryActivity extends AppCompatActivity {
             Toast.makeText(HistoryActivity.this, "Sign in to your account", Toast.LENGTH_SHORT).show();
         }
     }
+    @SuppressLint("StaticFieldLeak")
     private class UploadImageTask extends AsyncTask<ByteArrayContent, Void, String> {
-        private String fileNames;
-        private SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        private final String fileNames;
+        private final SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         //private String folderId = "1OEon_6lH94B6TupvVeicEwf8cc1vEIfL";
-        private String folderId = sharedPreferences.getString("URL", "");
+        private final String folderId = sharedPreferences.getString("URL", "");
 
         public UploadImageTask(String fileNames) {
             this.fileNames = fileNames;
@@ -316,7 +304,8 @@ public class HistoryActivity extends AppCompatActivity {
                 editor.putInt("Sent",sent);
                 editor.apply();
             } else {
-                Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
+                countErrors++;
             }
         }
     }

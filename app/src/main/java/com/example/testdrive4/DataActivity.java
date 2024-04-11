@@ -1,5 +1,6 @@
 package com.example.testdrive4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -24,21 +25,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.http.ByteArrayContent;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-import io.opencensus.resource.Resource;
-
 public class DataActivity extends AppCompatActivity implements LocationListener {
 
     private long timeStamp;
-    private TextView textView, editTextPassengersIn,editTextPassengersOut;
-    private LocationManager locationManager;
+    private TextView editTextPassengersIn,editTextPassengersOut;
     private double latitude, longitude, altitude;
     private Spinner spinnerStop,spinnerTransport, spinnerPath,spinnerStopFullness,spinnerTransportFullness;
     private ImageView imageView;
@@ -69,8 +65,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerStop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
+                //String selectedItem = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -86,8 +81,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerStopFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
+                //String selectedItem = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -104,8 +98,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerTransportFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
+                //String selectedItem = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -133,7 +126,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 
         ///////
         // Получаем ссылку на LocationManager
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         // Проверяем разрешение на использование геолокации
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -152,9 +145,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 0, 0, this);
 
-
-
-        textView = findViewById(R.id.textFixation);
     }
 
     @Override
@@ -252,7 +242,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         sharedPhoto.getString("Photo","");
 
         String imagePath = sharedPhoto.getString("Photo","");
-        if (imagePath != null && !imagePath.isEmpty()) {
+        if (!imagePath.isEmpty()) {
             //Toast.makeText(DataActivity.this, ""+imagePath, Toast.LENGTH_SHORT).show();
             // Загружаем изображение в ImageView
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -269,23 +259,23 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 
 
     @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
+    public void onLocationChanged(@NonNull Location location) {
+
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             altitude = location.getAltitude();
-        }
+
     }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(@NonNull String provider) {
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(@NonNull String provider) {
         Toast.makeText(this, "Please enable GPS", Toast.LENGTH_SHORT).show();
     }
 
@@ -352,7 +342,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 Map<String, ?> allEntries = sharedPreferences.getAll();
                 int sizeKeys = allEntries.size();
                 //Toast.makeText(DataActivity.this, ""+sizeKeys, Toast.LENGTH_SHORT).show();
-                editor.putString("" + (sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
+                editor.putString(String.valueOf(sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
                 editor.apply();
                 java.io.File csvFileDir = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
@@ -366,17 +356,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 if (!csvFile.exists()) {
                     csvFile.createNewFile();
                     FileWriter writer = new FileWriter(csvFile);
-                    SharedPreferences sharedSavesHistory = getSharedPreferences("SavesHistory", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editorSavesHistore = sharedSavesHistory.edit();
-
                     writer.append("Время" + "," + "Индетификатор" + "," + "Название остановки" + "," + "GPS-широта" + "," + "GPS-долгота" + "," +
                             "Высота места над уровнем моря" + "," + "Число пассажиров на остановке" + "," + "Номер маршрута транспортного средства" +
                             "," + "Тип транспорта" + "," + "Степень заполненности транспортного средства" + "," + "Число вошедших пассажиров" + "," + "Число вышедших пассажиров" + "\n");
-                    writer.append(timeStamp + "," + sharedPreferencesID.getString("surname", "") + "," + spinnerStop.getSelectedItem().toString() +
-                            "," + latitude + "," + longitude + "," + altitude +
-                            "," + spinnerStopFullness.getSelectedItem().toString() + "," + spinnerPath.getSelectedItem().toString() + ","
-                            + spinnerTransport.getSelectedItem().toString() + "," + spinnerTransportFullness.getSelectedItem().toString() +
-                            "," + editTextPassengersOut.getText().toString() + "," + editTextPassengersIn.getText().toString());
+                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").append(spinnerStop.getSelectedItem().toString()).append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).append(",").append(spinnerPath.getSelectedItem().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).append(",").append(editTextPassengersIn.getText().toString());
                     writer.close();
                     SharedPreferences sharedHistoryInfo = getSharedPreferences("HistoryInfo",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor2 = sharedHistoryInfo.edit();
