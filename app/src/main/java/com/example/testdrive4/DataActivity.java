@@ -123,42 +123,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 R.array.transport_options, android.R.layout.simple_spinner_item);
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
-        //можно убрать но я не хочу
-//        spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedItem = (String) parent.getItemAtPosition(position);
-//                // Обработка выбора элемента
-//                Resources res = getResources();
-//                if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
-//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
-//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.bus_options, android.R.layout.simple_spinner_item);
-//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.trolleybus_options, android.R.layout.simple_spinner_item);
-//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.minibus_options, android.R.layout.simple_spinner_item);
-//                } else {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.error_optins, android.R.layout.simple_spinner_item);
-//                }
-//                adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                spinnerPath.setAdapter(adapterPath);
-//                int pathIndex = adapterPath.getPosition(sharedPreferences.getString("spinnerPath", ""););
-//                if (pathIndex != -1) {
-//                    spinnerPath.setSelection(pathIndex);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Обработка, если ни один элемент не выбран
-//            }
-//        });
-
 
         //Методы
         findViewById(R.id.imageButtonRegistrationINAddData).setOnClickListener(view -> startMainActivity());
@@ -349,11 +313,9 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         editorPhoto.clear();
         editorPhoto.apply();
 
-        spinnerStop.setSelection(0);
         spinnerTransport.setSelection(0);
         spinnerPath.setSelection(0);
         spinnerTransportFullness.setSelection(0);
-        spinnerStopFullness.setSelection(0);
 
         editTextPassengersIn.setText("");
         editTextPassengersOut.setText("");
@@ -362,8 +324,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     }
     private boolean checkFields(){
         Resources res = getResources();
-        if(spinnerStop.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_options)[0]))
+        if(spinnerStop.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_options)[0])) {
+            //findViewById(R.id.)
             return false;
+        }
         if(spinnerStopFullness.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_fullness)[0]))
             return false;
         if(spinnerPath.getSelectedItem().toString().equals(res.getStringArray(R.array.bus_options)[0]))
@@ -414,7 +378,13 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                             + spinnerTransport.getSelectedItem().toString() + "," + spinnerTransportFullness.getSelectedItem().toString() +
                             "," + editTextPassengersOut.getText().toString() + "," + editTextPassengersIn.getText().toString());
                     writer.close();
+                    SharedPreferences sharedHistoryInfo = getSharedPreferences("HistoryInfo",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor2 = sharedHistoryInfo.edit();
+                    int saved = sharedHistoryInfo.getInt("Saved",0)+1;
+                    editor2.putInt("Saved",saved);
+                    editor2.apply();
                     clearFields();
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

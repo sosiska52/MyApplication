@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Прогнозирование пассажиропотока</string>
 
-    <string name="registration_name">Регистрация</string>
+    <string name="registration_name">Личный кабинет</string>
     <string name="editText_name">Введите имя</string>
     <string name="editText_surname">Введите фамилию</string>
     <string name="editText_patronymic">Введите отчество</string>
-    <string name="editText_googleURL">Введите URL гугл диска</string>
-    <string name="button_login">Войти</string>
-    <string name="button_save">Сохранить</string>
+    <string name="editText_googleURL">Введите ТОКЕН гугл диска</string>
+    <string name="button_login">Войти в Google Account</string>
+    <string name="button_save">Сохранить изменения</string>
     <string name="button_languageEn">En</string>
     <string name="button_languageRu">Ru</string>
     <string name="description_add_data">to_add_data</string>
@@ -26,8 +26,8 @@
     <string name="editText_num_out">Введите число вышедших пасажиров</string>
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
-    <string name="button_send">Сохранить</string>
-    <string name="button_clear">Очистить</string>
+    <string name="button_send">Сохранить запись</string>
+    <string name="button_clear">Очистить все поля</string>
 
     <string name="history_name">История</string>
     <string name="data_saved">Сделано записей:</string>

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,19 +53,28 @@ public class HistoryActivity extends AppCompatActivity {
     private int position =0;
     private Drive mDriveService;
     private ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
-    HistoryAdapter adapter;
+    private HistoryAdapter adapter;
+
+    private TextView textViewDataSavedNumber,textViewDataSentNumber;
+    private SharedPreferences sharedHistoryInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        sharedHistoryInfo = getSharedPreferences("HistoryInfo", Context.MODE_PRIVATE);
+
+        textViewDataSavedNumber=findViewById(R.id.textViewDataSavedNumber);
+        textViewDataSentNumber=findViewById(R.id.textViewDataSentNumber);
+
+        textViewDataSavedNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Saved",0)));
+        textViewDataSentNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Sent",0)));
 
         makeListView();
         adapter = new HistoryAdapter(this, historyItems);
         ListView listView = findViewById(R.id.listViewHistory);
         listView.setAdapter(adapter);
 
-
-        // Устанавливаем слушателя событий на ListView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
@@ -301,7 +311,10 @@ public class HistoryActivity extends AppCompatActivity {
             super.onPostExecute(fileId);
             if (fileId != null) {
                 //Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
-
+                SharedPreferences.Editor editor = sharedHistoryInfo.edit();
+                int sent = sharedHistoryInfo.getInt("Sent",0)+1;
+                editor.putInt("Sent",sent);
+                editor.apply();
             } else {
                 Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
             }

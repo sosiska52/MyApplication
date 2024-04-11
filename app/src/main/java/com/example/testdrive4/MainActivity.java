@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("patronymic", editTextPatronymic.getText().toString());
         editor.putString("URL", editTextURL.getText().toString());
         editor.apply();
+        Toast.makeText(MainActivity.this,"Данные успешно сохранены",Toast.LENGTH_LONG);
     }
     public void startDataActivity(){
         Intent intent = new Intent(this, DataActivity.class);
