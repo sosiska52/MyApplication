@@ -160,7 +160,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         SharedPreferences sharedPreferences = getSharedPreferences("DataPause", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //editor.putString("spinnerStop", spinnerStop.getSelectedItem().toString());
-        editor.putString("textStop", textStop.toString());
+        editor.putString("textStop", textStop.getText().toString());
         editor.putString("spinnerStopFullness", spinnerStopFullness.getSelectedItem().toString());
         editor.putString("spinnerPath", spinnerPath.getSelectedItem().toString());
         editor.putString("spinnerTransport", spinnerTransport.getSelectedItem().toString());
