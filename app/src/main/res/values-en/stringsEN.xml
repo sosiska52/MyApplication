@@ -3,10 +3,9 @@
 
     <string name="app_name">Passenger traffic</string>
 
-    <string name="registration_name">Registration</string>
+    <string name="registration_name">Personal account</string>
     <string name="editText_name">Enter name</string>
     <string name="editText_surname">Enter surname</string>
-    <string name="editText_patronymic">Enter patronymic</string>
     <string name="editText_googleURL">Enter google disk URL</string>
     <string name="button_login">Log in Gmail</string>
     <string name="button_save">Save</string>
@@ -29,7 +28,9 @@
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
     <string name="button_send">Save</string>
-    <string name="button_clear">Clear</string>
+    <string name="button_clear">Clear form</string>
+    <string name="seekbar_passengers_in">Enter the number of entered passengers</string>
+    <string name="seekbar_passengers_out">Enter the number of left passengers</string>
 
     <string name="history_name">History</string>
     <string name="data_saved">Recordings made:</string>

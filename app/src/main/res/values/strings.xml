@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Passenger traffic</string>
 
-    <string name="registration_name">Регистрация</string>
+    <string name="registration_name">Личный кабинет</string>
     <string name="editText_name">Введите имя</string>
     <string name="editText_surname">Введите фамилию</string>
-    <string name="editText_patronymic">Введите отчество</string>
     <string name="editText_googleURL">Введите URL гугл диска</string>
     <string name="button_login">Войти в Gmail</string>
     <string name="button_save">Сохранить</string>
@@ -27,7 +26,9 @@
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
     <string name="button_send">Сохранить</string>
-    <string name="button_clear">Очистить</string>
+    <string name="button_clear">Очистить все поля</string>
+    <string name="seekbar_passengers_in">Введите число вошедших пасажиров</string>
+    <string name="seekbar_passengers_out">Введите число вышедших пасажиров</string>
 
     <string name="history_name">История</string>
     <string name="data_saved">Сделано записей:</string>
