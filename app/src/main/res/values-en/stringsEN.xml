@@ -18,7 +18,8 @@
     <string name="add_data_name">Fixation</string>
     <string name="description_scrollview">add_data</string>
     <string name="editText_bus_stop_name">Select the number of the bus stop</string>
-    <string name="drop_down_menu_bus_stop">Choose the bus stop</string>
+    <string name="drop_down_menu_bus_stop">Choose bus stop</string>
+    <string name="editText_bus_next_stop_name">Choose next bus stop</string>
     <string name="drop_down_menu_bus_stop_fullness">Select the fullness of the stop</string>
     <string name="drop_down_menu_transport_type">Select the type of transport</string>
     <string name="drop_down_menu_fullness">Select the fullness of transport</string>

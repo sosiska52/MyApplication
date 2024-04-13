@@ -16,11 +16,12 @@
     <string name="add_data_name">Фиксация</string>
     <string name="description_scrollview">add_data</string>
     <string name="editText_bus_stop_name">Введите название остановки</string>
+    <string name="editText_bus_next_stop_name">Введите название следующей остановки</string>
     <string name="drop_down_menu_bus_stop">Выберите остановку</string>
     <string name="drop_down_menu_bus_stop_fullness">Выберите заполненность остановки</string>
     <string name="drop_down_menu_transport_type">Выберите тип транспорта</string>
     <string name="drop_down_menu_fullness">Оцените заполненность транспорта</string>
-    <string name="drop_down_menu_bus_number">Выберите номер маршрута</string>
+    <string name="drop_down_menu_bus_number">Введите номер маршрута</string>
     <string name="editText_num_in">Введите число вошедших пасажиров</string>
     <string name="editText_num_out">Введите число вышедших пасажиров</string>
     <string name="description_camera">make_photo</string>
