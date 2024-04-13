@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Passenger traffic</string>
+    <string name="app_name">Прогнозирование пассажиропотока</string>
 
     <string name="registration_name">Личный кабинет</string>
     <string name="editText_name">Введите имя</string>
     <string name="editText_surname">Введите фамилию</string>
     <string name="editText_googleURL">Введите URL гугл диска</string>
-    <string name="button_login">Войти в Gmail</string>
+    <string name="button_login">Войти</string>
     <string name="button_save">Сохранить</string>
     <string name="button_languageEn">En</string>
     <string name="button_languageRu">Ru</string>

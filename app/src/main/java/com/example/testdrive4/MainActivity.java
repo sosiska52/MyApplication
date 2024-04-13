@@ -13,9 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
 import android.content.Intent;
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextName,editTextSurname,editTextPatronymic,editTextURL;
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_SIGN_IN = 1;
-    private Drive mDriveService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("patronymic", editTextPatronymic.getText().toString());
         editor.putString("URL", editTextURL.getText().toString());
         editor.apply();
+        Toast.makeText(MainActivity.this,"Данные успешно сохранены",Toast.LENGTH_LONG).show();
     }
     public void startDataActivity(){
         Intent intent = new Intent(this, DataActivity.class);
@@ -82,15 +80,6 @@ public class MainActivity extends AppCompatActivity {
                                 GoogleAccountCredential.usingOAuth2(
                                         this, Collections.singleton(DriveScopes.DRIVE_FILE));
                         credential.setSelectedAccount(googleAccount.getAccount());
-                        HttpTransport httpTransport = null;
-                        httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
-                        mDriveService =
-                                new Drive.Builder(
-                                        httpTransport ,
-                                        new GsonFactory(),
-                                        credential)
-                                        .setApplicationName("Drive API Migration")
-                                        .build();
                     })
                     .addOnFailureListener(exception -> Log.e(TAG, "Unable to sign in.", exception));
         }
@@ -102,21 +91,11 @@ public class MainActivity extends AppCompatActivity {
             GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(
                     this, Collections.singleton(DriveScopes.DRIVE_FILE));
             credential.setSelectedAccount(account.getAccount());
-            HttpTransport httpTransport = null;
-            httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
-            mDriveService =
-                    new Drive.Builder(
-                            httpTransport ,
-                            new GsonFactory(),
-                            credential)
-                            .setApplicationName("Drive API Migration")
-                            .build();
         } else {
             Toast.makeText(MainActivity.this, "Войдите в аккаунт ", Toast.LENGTH_SHORT).show();
         }
     }
     private void requestSignInRegister() {
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
