@@ -1,12 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F3F3F3"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_scrollview"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"
+        android:fillViewport="true">
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F3F3F3"
+            tools:context=".MainActivity">
+
+            <LinearLayout
+                android:id="@+id/backgroundRegistration"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_background_white"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textRegistration"
+                android:layout_marginTop="50dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonLanguageRu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/light_grey"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="40dp"
+                        android:text="@string/button_languageRu"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/buttonLanguageEn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/light_purple"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="40dp"
+                        android:text="@string/button_languageEn"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/editTextSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="center"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/editText_surname"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#757575" />
+
+                <EditText
+                    android:id="@+id/editTextURL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/editText_googleURL"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#757575" />
+
+                <Button
+                    android:id="@+id/buttonLogIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center"
+                    android:text="@string/button_login" />
+
+                <TextView
+                    android:id="@+id/textViewGmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="testText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1Stop"
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_background_white"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/backgroundRegistration">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewStop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/editText_bus_stop_name"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2Stop"
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_background_white"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/linearLayout1Stop">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewNextStop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="@string/editText_bus_stop_name"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonSaveRegistration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_save"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/linearLayout2Stop"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/textRegistration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif-black"
+                android:textStyle="bold"
+                android:text="@string/registration_name"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,145 +214,5 @@
             android:src="@android:drawable/ic_menu_recent_history" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/backgroundRegistration"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background_white"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textRegistration"
-        android:layout_marginTop="40dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonLanguageRu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/light_grey"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="40dp"
-                android:text="@string/button_languageRu"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/buttonLanguageEn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/light_purple"
-                android:layout_marginTop="5dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="40dp"
-                android:text="@string/button_languageEn"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <EditText
-            android:id="@+id/editTextSurname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/editText_surname"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textColor="@color/black"
-            android:textColorHint="#757575" />
-
-        <EditText
-            android:id="@+id/editTextURL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/editText_googleURL"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textColor="@color/black"
-            android:textColorHint="#757575" />
-
-        <Button
-            android:id="@+id/buttonLogIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center"
-            android:text="@string/button_login" />
-
-        <TextView
-            android:id="@+id/textViewGmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="testText" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1Stop"
-        android:layout_gravity="center"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_background_white"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/backgroundRegistration">
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextViewStop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/editText_bus_stop_name"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2Stop"
-        android:layout_gravity="center"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_background_white"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linearLayout1Stop">
-
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextViewNextStop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/editText_bus_stop_name"/>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonSaveRegistration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_save"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linearLayout2Stop"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:id="@+id/textRegistration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-black"
-        android:textStyle="bold"
-        android:text="@string/registration_name"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"/>
-
 </RelativeLayout>
+
