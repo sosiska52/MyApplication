@@ -1,7 +1,6 @@
 package com.example.testdrive4;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,12 +20,9 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Size;
-import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -38,8 +34,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -47,11 +44,9 @@ public class CameraActivity extends AppCompatActivity {
     private CameraDevice cameraDevice;
     private CameraCaptureSession cameraCaptureSession;
     private CaptureRequest.Builder captureRequestBuilder;
-    private ImageReader imageReader;
     private boolean isCameraReady = false;
     private final int REQUEST_CAMERA_PERMISSION = 100;
     private Size previewSize;
-    private String cameraId;
     private SurfaceView surfaceView;
     private long timeStamp;
 
@@ -64,12 +59,7 @@ public class CameraActivity extends AppCompatActivity {
         ImageButton buttonCapture = findViewById(R.id.imageButtonCapture);
         surfaceView.getHolder().addCallback(surfaceCallback);
 
-        buttonCapture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                capturePhoto();
-            }
-        });
+        buttonCapture.setOnClickListener(view -> capturePhoto());
 
         cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
     }
@@ -79,9 +69,9 @@ public class CameraActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
+    private final SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
         @Override
-        public void surfaceCreated(SurfaceHolder holder) {
+        public void surfaceCreated(@NonNull SurfaceHolder holder) {
             if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
@@ -91,10 +81,10 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
+        public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {}
 
         @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {}
+        public void surfaceDestroyed(@NonNull SurfaceHolder holder) {}
     };
 
     private void requestCameraPermission() {
@@ -104,9 +94,9 @@ public class CameraActivity extends AppCompatActivity {
 
 private void openCamera() {
     try {
-        cameraId = cameraManager.getCameraIdList()[0]; // Присвойте значение переменной cameraId в методе openCamera()
+        String cameraId = cameraManager.getCameraIdList()[0]; // Присвойте значение переменной cameraId в методе openCamera()
         CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
-        previewSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+        previewSize = Objects.requireNonNull(characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP))
                 .getOutputSizes(SurfaceHolder.class)[0];
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -119,7 +109,7 @@ private void openCamera() {
     }
 }
 
-    private CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
+    private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(@NonNull CameraDevice camera) {
             cameraDevice = camera;
@@ -147,7 +137,7 @@ private void createCameraPreview() {
         Surface surface = surfaceHolder.getSurface();
         captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         captureRequestBuilder.addTarget(surface);
-        cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
+        cameraDevice.createCaptureSession(Collections.singletonList(surface), new CameraCaptureSession.StateCallback() {
             @Override
             public void onConfigured(@NonNull CameraCaptureSession session) {
                 if (cameraDevice == null) {
@@ -210,23 +200,14 @@ private void createCameraPreview() {
                 ImageReader reader = ImageReader.newInstance(previewSize.getWidth(), previewSize.getHeight(), ImageFormat.JPEG, 1);
                 CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
                 captureBuilder.addTarget(reader.getSurface());
-                reader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
-                    @Override
-                    public void onImageAvailable(ImageReader reader) {
-                        Image image = null;
-                        try {
-                            image = reader.acquireLatestImage();
-                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                            byte[] bytes = new byte[buffer.capacity()];
-                            buffer.get(bytes);
-                            saveImage(bytes);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            if (image != null) {
-                                image.close();
-                            }
-                        }
+                reader.setOnImageAvailableListener(reader1 -> {
+                    try (Image image = reader1.acquireLatestImage()) {
+                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        byte[] bytes = new byte[buffer.capacity()];
+                        buffer.get(bytes);
+                        saveImage(bytes);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }, null);
 
@@ -259,16 +240,6 @@ private void createCameraPreview() {
         }
     }
 
-//    private void saveImage(byte[] bytes) throws IOException {
-//        File pictureFile = getOutputMediaFile();
-//        if (pictureFile != null) {
-//            try (FileOutputStream fos = new FileOutputStream(pictureFile)) {
-//                fos.write(bytes);
-//                Toast.makeText(CameraActivity.this, "Image saved: " + pictureFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        startDataActivity();
-//    }
 private void saveImage(byte[] bytes) throws IOException {
     // Поворачиваем изображение в нужную ориентацию
     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

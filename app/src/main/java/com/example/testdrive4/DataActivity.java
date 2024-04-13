@@ -1,5 +1,6 @@
 package com.example.testdrive4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -19,31 +20,28 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.http.ByteArrayContent;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-import io.opencensus.resource.Resource;
-
 public class DataActivity extends AppCompatActivity implements LocationListener {
 
     private long timeStamp;
-    private TextView textView, editTextPassengersIn,editTextPassengersOut;
-    private LocationManager locationManager;
+    private TextView editTextPassengersIn,editTextPassengersOut;
     private double latitude, longitude, altitude;
     private Spinner spinnerStop,spinnerTransport, spinnerPath,spinnerStopFullness,spinnerTransportFullness;
     private ImageView imageView;
     private ArrayAdapter<CharSequence> adapterPath,adapterStop,adapterStopFullness,
             adapterTransportFullness,adapterTransport;
+    AutoCompleteTextView textStop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,24 +59,28 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerPath = findViewById(R.id.spinIdPathNumber);
         spinnerStopFullness = findViewById(R.id.spinIdStopFullness);
         spinnerTransportFullness = findViewById(R.id.spinIdTransportFullness);
-        //
-        adapterStop = ArrayAdapter.createFromResource(this,
-                R.array.stop_options, android.R.layout.simple_spinner_item);
-        adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerStop.setAdapter(adapterStop);
-        spinnerStop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Обработка, если ни один элемент не выбран
-            }
-        });
-        //
+        ArrayAdapter<String> adapterStop = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+        textStop = (AutoCompleteTextView)
+                findViewById(R.id.autoCompleteTextView);
+        textStop.setAdapter(adapterStop);
+//        adapterStop = ArrayAdapter.createFromResource(this,
+//                R.array.stop_options, android.R.layout.simple_spinner_item);
+//        adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerStop.setAdapter(adapterStop);
+//        spinnerStop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                //String selectedItem = (String) parent.getItemAtPosition(position);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Обработка, если ни один элемент не выбран
+//            }
+//        });
+
         adapterStopFullness = ArrayAdapter.createFromResource(this,
                 R.array.stop_fullness, android.R.layout.simple_spinner_item);
         adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,8 +88,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerStopFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
+                //String selectedItem = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -104,8 +105,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         spinnerTransportFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                // Обработка выбора элемента
+                //String selectedItem = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -123,42 +123,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 R.array.transport_options, android.R.layout.simple_spinner_item);
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
-        //можно убрать но я не хочу
-//        spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedItem = (String) parent.getItemAtPosition(position);
-//                // Обработка выбора элемента
-//                Resources res = getResources();
-//                if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
-//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
-//                        selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.bus_options, android.R.layout.simple_spinner_item);
-//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.trolleybus_options, android.R.layout.simple_spinner_item);
-//                } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1])) {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.minibus_options, android.R.layout.simple_spinner_item);
-//                } else {
-//                    adapterPath = ArrayAdapter.createFromResource(DataActivity.this,
-//                            R.array.error_optins, android.R.layout.simple_spinner_item);
-//                }
-//                adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                spinnerPath.setAdapter(adapterPath);
-//                int pathIndex = adapterPath.getPosition(sharedPreferences.getString("spinnerPath", ""););
-//                if (pathIndex != -1) {
-//                    spinnerPath.setSelection(pathIndex);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Обработка, если ни один элемент не выбран
-//            }
-//        });
-
 
         //Методы
         findViewById(R.id.imageButtonRegistrationINAddData).setOnClickListener(view -> startMainActivity());
@@ -169,7 +133,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 
         ///////
         // Получаем ссылку на LocationManager
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         // Проверяем разрешение на использование геолокации
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -188,9 +152,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 0, 0, this);
 
-
-
-        textView = findViewById(R.id.textFixation);
     }
 
     @Override
@@ -198,7 +159,8 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         super.onPause();
         SharedPreferences sharedPreferences = getSharedPreferences("DataPause", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("spinnerStop", spinnerStop.getSelectedItem().toString());
+        //editor.putString("spinnerStop", spinnerStop.getSelectedItem().toString());
+        editor.putString("textStop", textStop.getText().toString());
         editor.putString("spinnerStopFullness", spinnerStopFullness.getSelectedItem().toString());
         editor.putString("spinnerPath", spinnerPath.getSelectedItem().toString());
         editor.putString("spinnerTransport", spinnerTransport.getSelectedItem().toString());
@@ -215,7 +177,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         // Получаем значения из SharedPreferences
         String passengersOut = sharedPreferences.getString("editTextPassengersOut", "");
         String passengersIn = sharedPreferences.getString("editTextPassengersIn", "");
-        String selectedStop = sharedPreferences.getString("spinnerStop", "");
+        String stop = sharedPreferences.getString("textStop", "");
         String selectedStopFullness = sharedPreferences.getString("spinnerStopFullness", "");
         String selectedPath = sharedPreferences.getString("spinnerPath", "");
         String selectedTransport = sharedPreferences.getString("spinnerTransport", "");
@@ -229,11 +191,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         if (!passengersIn.isEmpty()) {
             editTextPassengersIn.setText(passengersIn);
         }
-
-        int stopIndex = adapterStop.getPosition(selectedStop);
-        if (stopIndex != -1) {
-            spinnerStop.setSelection(stopIndex);
+        if (!stop.isEmpty()) {
+            textStop.setText(stop);
         }
+
 
         int stopFullnessIndex = adapterStopFullness.getPosition(selectedStopFullness);
         if (stopFullnessIndex != -1) {
@@ -288,7 +249,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         sharedPhoto.getString("Photo","");
 
         String imagePath = sharedPhoto.getString("Photo","");
-        if (imagePath != null && !imagePath.isEmpty()) {
+        if (!imagePath.isEmpty()) {
             //Toast.makeText(DataActivity.this, ""+imagePath, Toast.LENGTH_SHORT).show();
             // Загружаем изображение в ImageView
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -305,23 +266,23 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 
 
     @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
+    public void onLocationChanged(@NonNull Location location) {
+
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             altitude = location.getAltitude();
-        }
+
     }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(@NonNull String provider) {
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(@NonNull String provider) {
         Toast.makeText(this, "Please enable GPS", Toast.LENGTH_SHORT).show();
     }
 
@@ -349,11 +310,9 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         editorPhoto.clear();
         editorPhoto.apply();
 
-        spinnerStop.setSelection(0);
         spinnerTransport.setSelection(0);
         spinnerPath.setSelection(0);
         spinnerTransportFullness.setSelection(0);
-        spinnerStopFullness.setSelection(0);
 
         editTextPassengersIn.setText("");
         editTextPassengersOut.setText("");
@@ -362,8 +321,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     }
     private boolean checkFields(){
         Resources res = getResources();
-        if(spinnerStop.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_options)[0]))
+        if(textStop.getText().toString().equals("")) {
+            //findViewById(R.id.)
             return false;
+        }
         if(spinnerStopFullness.getSelectedItem().toString().equals(res.getStringArray(R.array.stop_fullness)[0]))
             return false;
         if(spinnerPath.getSelectedItem().toString().equals(res.getStringArray(R.array.bus_options)[0]))
@@ -388,7 +349,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 Map<String, ?> allEntries = sharedPreferences.getAll();
                 int sizeKeys = allEntries.size();
                 //Toast.makeText(DataActivity.this, ""+sizeKeys, Toast.LENGTH_SHORT).show();
-                editor.putString("" + (sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
+                editor.putString(String.valueOf(sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
                 editor.apply();
                 java.io.File csvFileDir = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
@@ -402,19 +363,18 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 if (!csvFile.exists()) {
                     csvFile.createNewFile();
                     FileWriter writer = new FileWriter(csvFile);
-                    SharedPreferences sharedSavesHistory = getSharedPreferences("SavesHistory", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editorSavesHistore = sharedSavesHistory.edit();
-
                     writer.append("Время" + "," + "Индетификатор" + "," + "Название остановки" + "," + "GPS-широта" + "," + "GPS-долгота" + "," +
                             "Высота места над уровнем моря" + "," + "Число пассажиров на остановке" + "," + "Номер маршрута транспортного средства" +
                             "," + "Тип транспорта" + "," + "Степень заполненности транспортного средства" + "," + "Число вошедших пассажиров" + "," + "Число вышедших пассажиров" + "\n");
-                    writer.append(timeStamp + "," + sharedPreferencesID.getString("surname", "") + "," + spinnerStop.getSelectedItem().toString() +
-                            "," + latitude + "," + longitude + "," + altitude +
-                            "," + spinnerStopFullness.getSelectedItem().toString() + "," + spinnerPath.getSelectedItem().toString() + ","
-                            + spinnerTransport.getSelectedItem().toString() + "," + spinnerTransportFullness.getSelectedItem().toString() +
-                            "," + editTextPassengersOut.getText().toString() + "," + editTextPassengersIn.getText().toString());
+                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").append(textStop.getText().toString()).append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).append(",").append(spinnerPath.getSelectedItem().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).append(",").append(editTextPassengersIn.getText().toString());
                     writer.close();
+                    SharedPreferences sharedHistoryInfo = getSharedPreferences("HistoryInfo",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor2 = sharedHistoryInfo.edit();
+                    int saved = sharedHistoryInfo.getInt("Saved",0)+1;
+                    editor2.putInt("Saved",saved);
+                    editor2.apply();
                     clearFields();
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
