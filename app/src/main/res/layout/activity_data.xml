@@ -55,12 +55,6 @@
                 android:textColor = "@color/black"
                 android:padding="15dp"
                 style="@style/MySpinnerStyle" />
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:hint="Введите остановку" />
         </LinearLayout>
 
 
