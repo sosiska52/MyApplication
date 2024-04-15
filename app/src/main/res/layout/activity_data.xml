@@ -56,7 +56,14 @@
                     android:text="@string/drop_down_menu_bus_stop_fullness"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
-
+                <TextView
+                    android:id="@+id/textViewProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center"
+                    android:textSize="18sp" />
                 <SeekBar
                     android:id="@+id/seekBarStopFullness"
                     android:layout_width="300dp"
@@ -178,8 +185,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:progressTint="@color/purple"/>
-                <!--
-                OLD VERSION
 
                 <EditText
                     android:id="@+id/editTextPassengersIn"
@@ -206,7 +211,7 @@
                     android:inputType="number"
                     android:minHeight="48dp"
                     android:textColorHint="#757575" />
-                -->
+
 
 
             </LinearLayout>
