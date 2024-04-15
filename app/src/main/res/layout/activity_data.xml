@@ -199,12 +199,16 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
-                <Button
+                <TextView
                     android:id="@+id/buttonClearData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/button_clear"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textSize="15sp"
+                    android:textStyle="underline"/>
 
                 <Button
                     android:id="@+id/buttonSaveData"
@@ -212,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/button_send"
                     android:textSize="20sp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginBottom="70dp"
                     android:layout_gravity="center" />
             </LinearLayout>
