@@ -102,14 +102,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
                     android:text="testText" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout1Stop"
                 android:layout_gravity="center"
-                android:layout_width="300dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/rounded_background_white"
@@ -122,15 +121,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:hint="@string/editText_bus_stop_name"
-                    android:textColorHint="#757575"/>
+                    android:text="@string/editText_bus_stop_name"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout2Stop"
                 android:layout_gravity="center"
-                android:layout_width="300dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/rounded_background_white"
@@ -143,8 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:hint="@string/editText_bus_stop_name"
-                    android:textColorHint="#757575"/>
+                    android:text="@string/editText_bus_stop_name"/>
 
             </LinearLayout>
 
@@ -218,3 +215,4 @@
     </RelativeLayout>
 
 </RelativeLayout>
+

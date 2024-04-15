@@ -2,7 +2,6 @@
     <string name="app_name">Прогнозирование пассажиропотока</string>
 
     <string name="registration_name">Личный кабинет</string>
-    <string name="editText_name">Введите имя</string>
     <string name="editText_surname">Введите фамилию</string>
     <string name="editText_googleURL">Введите URL гугл диска</string>
     <string name="button_login">Войти</string>
@@ -15,21 +14,19 @@
 
     <string name="add_data_name">Фиксация</string>
     <string name="description_scrollview">add_data</string>
-    <string name="editText_bus_stop_name">Введите название остановки</string>
-    <string name="editText_bus_next_stop_name">Введите название следующей остановки</string>
+    <string name="editText_bus_stop_name">Название остановки</string>
+    <string name="editText_bus_next_stop_name">Название следующей остановки</string>
     <string name="drop_down_menu_bus_stop">Выберите остановку</string>
-    <string name="drop_down_menu_bus_stop_fullness">Выберите заполненность остановки</string>
-    <string name="drop_down_menu_transport_type">Выберите тип транспорта</string>
-    <string name="drop_down_menu_fullness">Оцените заполненность транспорта</string>
-    <string name="drop_down_menu_bus_number">Введите номер маршрута</string>
+    <string name="drop_down_menu_bus_stop_fullness">Заполненность остановки</string>
+    <string name="drop_down_menu_transport_type">Тип транспорта</string>
+    <string name="drop_down_menu_fullness">Заполненность транспорта</string>
+    <string name="drop_down_menu_bus_number">Номер маршрута</string>
     <string name="editText_num_in">Вошло</string>
     <string name="editText_num_out">Вышло</string>
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
     <string name="button_send">Сохранить</string>
     <string name="button_clear">Очистить все поля</string>
-    <string name="seekbar_passengers_in">Введите число вошедших пасажиров</string>
-    <string name="seekbar_passengers_out">Введите число вышедших пасажиров</string>
 
     <string name="history_name">История</string>
     <string name="data_saved">Сделано записей:</string>
