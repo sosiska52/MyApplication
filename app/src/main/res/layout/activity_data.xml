@@ -199,12 +199,15 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
-                <Button
+                <TextView
                     android:id="@+id/buttonClearData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/button_clear"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textSize="15sp"/>
 
                 <Button
                     android:id="@+id/buttonSaveData"
@@ -212,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/button_send"
                     android:textSize="20sp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginBottom="70dp"
                     android:layout_gravity="center" />
             </LinearLayout>
@@ -234,7 +237,6 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/boxed_background_grey"
             android:contentDescription="@string/description_add_data"
-            android:onClick="startNewActivity"
             app:srcCompat="@android:drawable/ic_menu_add" />
 
 
@@ -263,4 +265,3 @@
             android:src="@android:drawable/ic_menu_recent_history" />
     </RelativeLayout>
 </RelativeLayout>
-
