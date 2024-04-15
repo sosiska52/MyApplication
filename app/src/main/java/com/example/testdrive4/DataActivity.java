@@ -40,8 +40,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     private double latitude, longitude, altitude;
     private Spinner spinnerTransport, spinnerStopFullness,spinnerTransportFullness;
     private ImageView imageView;
-    private ArrayAdapter<CharSequence> adapterStopFullness,
-            adapterTransportFullness,adapterTransport;
+    private ArrayAdapter<CharSequence> adapterStopFullness, adapterTransportFullness,adapterTransport;
     private ArrayAdapter<String> adapterPath;
     private SeekBar seekBarStopFullness;
     AutoCompleteTextView autoCompleteTextViewPathNumber;
@@ -72,21 +71,20 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 0, 0, this);
 
+
         editTextPassengersIn = findViewById(R.id.editTextPassengersIn);
         editTextPassengersOut = findViewById(R.id.editTextPassengersOut);
         imageView = findViewById(R.id.imageViewPhoto);
         spinnerTransport = findViewById(R.id.spinIdTransport);
+        spinnerTransportFullness = findViewById(R.id.spinIdTransportFullness);
         autoCompleteTextViewPathNumber = findViewById(R.id.autoCompleteTextViewPathNumber);
 
         //заполненость остановки
         seekBarStopFullness = findViewById(R.id.seekBarStopFullness);
-        textViewProgress = findViewById(R.id.textViewProgress);
+        textViewProgress = findViewById(R.id.textViewStopFullnessNum);
         SharedPreferences sharedDataPause = getSharedPreferences("DataPause", Context.MODE_PRIVATE);
         SharedPreferences.Editor editorDataPause = sharedDataPause.edit();
-        // Установка максимального значения и начального значения для SeekBar
         seekBarStopFullness.setMax(30);
-        //int savedProgress = sharedPreferences.getInt(KEY_PROGRESS, 0);
-        //seekBarStopFullness.setProgress(savedProgress);
 
         seekBarStopFullness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -124,21 +122,21 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 //        });
 
         //заполненость траспорта
-//        adapterTransportFullness = ArrayAdapter.createFromResource(this,
-//                R.array.transport_fullness, android.R.layout.simple_spinner_item);
-//        adapterStop.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinnerTransportFullness.setAdapter(adapterTransportFullness);
-//        spinnerTransportFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                //String selectedItem = (String) parent.getItemAtPosition(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Обработка, если ни один элемент не выбран
-//            }
-//        });
+        adapterTransportFullness = ArrayAdapter.createFromResource(DataActivity.this,
+                R.array.transport_fullness, android.R.layout.simple_spinner_item);
+        adapterTransportFullness.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTransportFullness.setAdapter(adapterTransportFullness);
+        spinnerTransportFullness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //String selectedItem = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Обработка, если ни один элемент не выбран
+            }
+        });
 
         adapterPath = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.error_optins));
@@ -191,7 +189,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         }
 
 
-//        int stopFullnessIndex = adapterStopFullness.getPosition(selectedStopFullness);
+//        int stopFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
 //        if (stopFullnessIndex != -1) {
 //            spinnerStopFullness.setSelection(stopFullnessIndex);
 //        }
@@ -237,10 +235,10 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
             });
         }
 
-//        int transportFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
-//        if (transportFullnessIndex != -1) {
-//            spinnerTransportFullness.setSelection(transportFullnessIndex);
-//        }
+        int transportFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
+        if (transportFullnessIndex != -1) {
+            spinnerTransportFullness.setSelection(transportFullnessIndex);
+        }
 
 
         SharedPreferences sharedPhoto = getSharedPreferences("Photo", Context.MODE_PRIVATE);
