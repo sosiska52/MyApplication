@@ -17,6 +17,8 @@ import com.google.api.services.drive.DriveScopes;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.util.Collections;
@@ -24,23 +26,27 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     //Поля
-    EditText editTextName,editTextSurname,editTextPatronymic,editTextURL;
+    EditText editTextSurname,editTextURL;
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_SIGN_IN = 1;
+    private AutoCompleteTextView autoCompleteTextViewStop, autoCompleteTextViewNextStop;
+    private SharedPreferences sharedDataPause;
+    private SharedPreferences.Editor editorDataPause;
+    private ArrayAdapter<String> adapterStop,adapterNextStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedDataPause = getSharedPreferences("DataPause", Context.MODE_PRIVATE);
+        editorDataPause = sharedDataPause.edit();
         //Поля
-        editTextName=findViewById(R.id.editTextName);
+
         editTextSurname=findViewById(R.id.editTextSurname);
-        editTextPatronymic=findViewById(R.id.editTextPatronymic);
         editTextURL=findViewById(R.id.editTextURL);
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-        editTextName.setText(sharedPreferences.getString("name", ""));
+
         editTextSurname.setText(sharedPreferences.getString("surname", ""));
-        editTextPatronymic.setText(sharedPreferences.getString("patronymic", ""));
         editTextURL.setText(sharedPreferences.getString("URL", ""));
         //Методы
         findViewById(R.id.buttonSaveRegistration).setOnClickListener(view -> saveInfo());
@@ -48,16 +54,53 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonHistoryINRegistration).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.imageButtonAddDataINRegistration).setOnClickListener(view -> startDataActivity());
         //findViewById(R.id.deleteButton).setOnClickListener(view -> clearShared());
+        /////////
+
+        adapterStop = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+        autoCompleteTextViewStop = (AutoCompleteTextView)
+                findViewById(R.id.autoCompleteTextViewStop);
+        autoCompleteTextViewStop.setAdapter(adapterStop);
+
+//        adapterPath = new ArrayAdapter<String>(DataActivity.this,
+//                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.bus_options));
+//        autoCompleteTextViewPathNumber.setAdapter(adapterPath);
+
+        adapterNextStop = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+        autoCompleteTextViewNextStop = (AutoCompleteTextView)
+                findViewById(R.id.autoCompleteTextViewNextStop);
+        autoCompleteTextViewNextStop.setAdapter(adapterNextStop);
 
         requestSignIn();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editorDataPause.putString("stop", autoCompleteTextViewStop.getText().toString());
+        editorDataPause.putString("nextStop", autoCompleteTextViewNextStop.getText().toString());
+        editorDataPause.apply();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String stop = sharedDataPause.getString("stop", "");
+        String nextStop = sharedDataPause.getString("nextStop", "");
 
+
+        if(!stop.isEmpty()){
+            autoCompleteTextViewStop.setText(stop);
+        }
+        if(!nextStop.isEmpty()){
+            autoCompleteTextViewNextStop.setText(nextStop);
+        }
+
+    }
     public void saveInfo(){
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("name", editTextName.getText().toString());
+
         editor.putString("surname", editTextSurname.getText().toString());
-        editor.putString("patronymic", editTextPatronymic.getText().toString());
         editor.putString("URL", editTextURL.getText().toString());
         editor.apply();
         Toast.makeText(MainActivity.this,"Данные успешно сохранены",Toast.LENGTH_LONG).show();
