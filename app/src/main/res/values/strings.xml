@@ -22,8 +22,8 @@
     <string name="drop_down_menu_transport_type">Выберите тип транспорта</string>
     <string name="drop_down_menu_fullness">Оцените заполненность транспорта</string>
     <string name="drop_down_menu_bus_number">Введите номер маршрута</string>
-    <string name="editText_num_in">Введите число вошедших пасажиров</string>
-    <string name="editText_num_out">Введите число вышедших пасажиров</string>
+    <string name="editText_num_in">Вошло</string>
+    <string name="editText_num_out">Вышло</string>
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
     <string name="button_send">Сохранить</string>
