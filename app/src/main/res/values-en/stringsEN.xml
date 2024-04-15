@@ -24,8 +24,8 @@
     <string name="drop_down_menu_transport_type">Select the type of transport</string>
     <string name="drop_down_menu_fullness">Select the fullness of transport</string>
     <string name="drop_down_menu_bus_number">Select a route number</string>
-    <string name="editText_num_in">Number of passengers who entered</string>
-    <string name="editText_num_out">Number of passengers who have left</string>
+    <string name="editText_num_in">Entered</string>
+    <string name="editText_num_out">Left</string>
     <string name="description_camera">make_photo</string>
     <string name="description_photo">last_photo</string>
     <string name="button_send">Save</string>
