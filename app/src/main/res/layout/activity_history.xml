@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-black"
+        android:textColor="@color/purple"
         android:text="@string/history_name"
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
@@ -31,6 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
             android:text="@string/data_saved" />
 
         <TextView
@@ -38,7 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:textColor="@color/purple"
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -52,13 +57,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/data_sent" />
+            android:text="@string/data_sent"
+            android:textColor="@color/purple"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textViewDataSentNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp" />
+            android:layout_marginStart="5dp"
+            android:textColor="@color/purple"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <Button
@@ -67,15 +76,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewDataSent"
         android:layout_centerHorizontal="true"
-        android:text="@string/button_history_send_data" />
+        android:text="@string/button_history_send_data"
+        android:layout_marginTop="5dp"/>
 
-    <Button
-        android:id="@+id/buttonClearAllHistory"
+    <LinearLayout
+        android:id="@+id/clearBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonHistorySendData"
         android:layout_centerHorizontal="true"
-        android:text="@string/button_history_clear_all_history" />
+        android:background="@drawable/rounded_background_back_grey"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/buttonClearAllHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_history_clear_all_history"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@color/purple" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listViewHistory"
@@ -83,7 +104,7 @@
         android:layout_height="match_parent"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_below="@id/buttonClearAllHistory"
+        android:layout_below="@id/clearBackground"
         android:layout_above="@id/bottomMenu"/>
 
     <RelativeLayout
@@ -108,10 +129,11 @@
             android:id="@+id/imageButtonRegistrationINHistory"
             android:layout_width="110dp"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/imageButtonAddDataINHistory"
+            android:layout_toStartOf="@+id/imageButtonAddDataINHistory"
+
             android:background="@drawable/boxed_background_light_purple"
             android:contentDescription="@string/description_registration"
             app:srcCompat="@android:drawable/ic_menu_myplaces" />
@@ -119,11 +141,10 @@
         <ImageButton
             android:id="@+id/imageButtonHistoryINHistory"
             android:layout_width="110dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent" android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/imageButtonAddDataINHistory"
+            android:layout_toEndOf="@+id/imageButtonAddDataINHistory"
             android:background="@drawable/boxed_background_grey"
             android:contentDescription="@string/description_history"
             android:src="@android:drawable/ic_menu_recent_history" />
