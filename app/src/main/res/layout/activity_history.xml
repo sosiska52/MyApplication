@@ -95,7 +95,9 @@
             android:text="@string/button_history_clear_all_history"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="10dp"
-            android:textColor="@color/purple" />
+            android:textColor="@color/purple"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
     <ListView
