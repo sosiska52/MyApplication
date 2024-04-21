@@ -242,7 +242,6 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/boxed_background_grey"
             android:contentDescription="@string/description_add_data"
-            android:onClick="startNewActivity"
             app:srcCompat="@android:drawable/ic_menu_add" />
 
 
