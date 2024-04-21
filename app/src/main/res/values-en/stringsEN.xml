@@ -13,11 +13,10 @@
     <string name="description_add_data">to_add_data</string>
     <string name="description_registration">to_registration</string>
     <string name="description_history">to_history></string>
+    <string name="base_case_Gmail">*log in to the received mail</string>
 
-    <string name="add_data_name">Fixation</string>
     <string name="description_scrollview">add_data</string>
     <string name="editText_bus_stop_name">Number of the bus stop</string>
-    <string name="drop_down_menu_bus_stop">Bus stop</string>
     <string name="editText_bus_next_stop_name">Next bus stop</string>
     <string name="drop_down_menu_bus_stop_fullness">Fullness of the stop</string>
     <string name="drop_down_menu_transport_type">Type of transport</string>
@@ -29,6 +28,7 @@
     <string name="description_photo">last_photo</string>
     <string name="button_send">Save</string>
     <string name="button_clear">Clear form</string>
+    <string name="base_case_stop_fullness">People: 0</string>
 
     <string name="history_name">History</string>
     <string name="data_saved">Recordings made:</string>
