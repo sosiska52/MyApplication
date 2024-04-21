@@ -8,9 +8,9 @@
     <string name="button_save">Сохранить</string>
     <string name="button_languageEn">En</string>
     <string name="button_languageRu">Ru</string>
-    <string name="description_add_data">to_add_data</string>
-    <string name="description_registration">to_registration</string>
-    <string name="description_history">to_history></string>
+    <string name="description_add_data">Фиксация</string>
+    <string name="description_registration">Личный кабинет</string>
+    <string name="description_history">История></string>
     <string name="base_case_Gmail">*войдите в полученную почту</string>
 
     <string name="description_scrollview">add_data</string>
@@ -27,6 +27,7 @@
     <string name="button_send">Сохранить</string>
     <string name="button_clear">Очистить все поля</string>
     <string name="base_case_stop_fullness">Человек: 0</string>
+    <string name="image_button_take_photo_hint">*фото салона</string>
 
     <string name="history_name">История</string>
     <string name="data_saved">Сделано записей:</string>
@@ -402,7 +403,7 @@
         <item>Почти или полностью пустой</item>
         <item>Занята половина сидячих мест</item>
         <item>Заняты все сидячие места</item>
-        <item>заняты все сидячие и половина стоячих мест</item>
+        <item>Заняты все сидячие и половина стоячих мест</item>
         <item>Нет места</item>
     </string-array>
 

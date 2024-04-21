@@ -4,8 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ScrollView
         android:id="@+id/scrollData"
@@ -118,16 +119,6 @@
                     android:hint="@string/drop_down_menu_bus_number"
                     android:textColorHint="@color/hint_grey"/>
 
-                <ImageView
-                    android:id="@+id/imageViewPhoto"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/description_photo"
-                    android:src="@android:drawable/ic_menu_gallery"
-                    android:clickable="true"
-                    android:focusable="true"/>
 
                 <TextView
                     android:id="@+id/textViewChooseTransportFullness"
@@ -148,6 +139,26 @@
                     android:textColor = "@color/black"
                     android:padding="15dp"
                     />
+
+                <ImageView
+                    android:id="@+id/imageViewPhoto"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:contentDescription="@string/description_photo"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    android:id="@+id/textViewGmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/light_grey"
+                    android:text="@string/image_button_take_photo_hint" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -181,9 +192,6 @@
                         android:textColorHint="@color/hint_grey" />
 
                 </LinearLayout>
-
-
-
 
             </LinearLayout>
 
@@ -219,8 +227,8 @@
                     android:text="@string/button_send"
                     android:textSize="20sp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="70dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="60dp"/>
             </LinearLayout>
 
         </LinearLayout>

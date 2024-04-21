@@ -52,7 +52,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         timeStamp = intent.getLongExtra("time",0L);
         //Методы
         findViewById(R.id.imageButtonRegistrationINAddData).setOnClickListener(view -> startMainActivity());
-        findViewById(R.id.imageButtonTakePhoto).setOnClickListener(view -> startCameraActivity());
+        //findViewById(R.id.imageButtonTakePhoto).setOnClickListener(view -> startCameraActivity());
         findViewById(R.id.imageButtonHistoryINAddData).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.buttonSaveData).setOnClickListener(view -> createCSVFile());
         findViewById(R.id.buttonClearData).setOnClickListener(view -> clearFields());
