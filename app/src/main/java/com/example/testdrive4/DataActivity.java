@@ -52,7 +52,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         timeStamp = intent.getLongExtra("time",0L);
         //Методы
         findViewById(R.id.imageButtonRegistrationINAddData).setOnClickListener(view -> startMainActivity());
-        findViewById(R.id.imageButtonTakePhoto).setOnClickListener(view -> startCameraActivity());
+        //findViewById(R.id.imageButtonTakePhoto).setOnClickListener(view -> startCameraActivity());
         findViewById(R.id.imageButtonHistoryINAddData).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.buttonSaveData).setOnClickListener(view -> createCSVFile());
         findViewById(R.id.buttonClearData).setOnClickListener(view -> clearFields());
@@ -75,6 +75,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         editTextPassengersIn = findViewById(R.id.editTextPassengersIn);
         editTextPassengersOut = findViewById(R.id.editTextPassengersOut);
         imageView = findViewById(R.id.imageViewPhoto);
+        imageView.setOnClickListener(view -> startCameraActivity());
         spinnerTransport = findViewById(R.id.spinIdTransport);
         spinnerTransportFullness = findViewById(R.id.spinIdTransportFullness);
         autoCompleteTextViewPathNumber = findViewById(R.id.autoCompleteTextViewPathNumber);
@@ -310,8 +311,9 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
 
         editTextPassengersIn.setText("");
         editTextPassengersOut.setText("");
-
-        imageView.setImageBitmap(null);
+        //android:drawable/ic_menu_gallery
+        imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+        //imageView.setImageBitmap(null);
     }
     private boolean checkFields(){
         Resources res = getResources();
@@ -360,7 +362,12 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     writer.append("Время" + "," + "Индетификатор" + "," + "Название остановки" + "," + "GPS-широта" + "," + "GPS-долгота" + "," +
                             "Высота места над уровнем моря" + "," + "Число пассажиров на остановке" + "," + "Номер маршрута транспортного средства" +
                             "," + "Тип транспорта" + "," + "Степень заполненности транспортного средства" + "," + "Число вошедших пассажиров" + "," + "Число вышедших пассажиров" + "\n");
-                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).append(",").append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).append(",").append(editTextPassengersIn.getText().toString());
+                    writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").
+                            append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).
+                            append(",").append(String.valueOf(altitude)).append(",").append(spinnerStopFullness.getSelectedItem().toString()).
+                            append(",").append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").
+                            append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).
+                            append(",").append(editTextPassengersIn.getText().toString());
                     writer.close();
                     SharedPreferences sharedHistoryInfo = getSharedPreferences("HistoryInfo",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor2 = sharedHistoryInfo.edit();
