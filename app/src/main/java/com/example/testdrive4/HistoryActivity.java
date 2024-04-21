@@ -86,7 +86,7 @@ public class HistoryActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Toast.makeText(HistoryActivity.this, entry.getKey() +" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(HistoryActivity.this, entry.getKey() +" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
         }
     }
     private void makeListView(){
