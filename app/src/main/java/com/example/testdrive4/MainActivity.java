@@ -16,7 +16,10 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.services.drive.DriveScopes;
 
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         editTextSurname.setText(sharedPreferences.getString("surname", ""));
         editTextURL.setText(sharedPreferences.getString("URL", ""));
         //Методы
-        findViewById(R.id.buttonSaveRegistration).setOnClickListener(view -> saveInfo());
+        findViewById(R.id.buttonSaveRegistration).setOnClickListener(view -> saveInfo(true));
         findViewById(R.id.buttonLogIn).setOnClickListener(view -> requestSignInRegister());
         findViewById(R.id.imageButtonHistoryINRegistration).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.imageButtonAddDataINRegistration).setOnClickListener(view -> startDataActivity());
@@ -64,16 +67,57 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.autoCompleteTextViewStop);
         autoCompleteTextViewStop.setAdapter(adapterStop);
 
-//        adapterPath = new ArrayAdapter<String>(DataActivity.this,
-//                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.bus_options));
-//        autoCompleteTextViewPathNumber.setAdapter(adapterPath);
-
         adapterNextStop = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
         autoCompleteTextViewNextStop = (AutoCompleteTextView)
                 findViewById(R.id.autoCompleteTextViewNextStop);
         autoCompleteTextViewNextStop.setAdapter(adapterNextStop);
+        autoCompleteTextViewNextStop.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String enteredText = s.toString();
+                boolean isTextInList = adapterNextStop.getPosition(enteredText) > -1;
+
+                if (isTextInList) {
+                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.purple));
+                } else {
+                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.red));
+                }
+            }
+        });
+        autoCompleteTextViewStop.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String enteredText = s.toString();
+                boolean isTextInList = adapterStop.getPosition(enteredText) > -1;
+
+                if (isTextInList) {
+                    autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.purple));
+                } else {
+                    autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.red));
+                }
+            }
+        });
         requestSignIn();
     }
     @Override
@@ -130,25 +174,28 @@ public class MainActivity extends AppCompatActivity {
         }
         return cheak;
     }
-    public void saveInfo(){
+    public void saveInfo(boolean cheak){
+
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString("surname", editTextSurname.getText().toString());
         editor.putString("URL", editTextURL.getText().toString());
         editor.apply();
-        Toast.makeText(MainActivity.this,"Данные успешно сохранены",Toast.LENGTH_LONG).show();
+        if(cheak) {
+            Toast.makeText(MainActivity.this,"Данные успешно сохранены",Toast.LENGTH_LONG).show();
+        }
     }
     public void startDataActivity(){
         if(cheakFields()) {
-            saveInfo();
+            saveInfo(false);
             Intent intent = new Intent(this, DataActivity.class);
             startActivity(intent);
         }
     }
     public void startHistoryActivity(){
         if(cheakFields()) {
-            saveInfo();
+            saveInfo(false);
             Intent intent = new Intent(this, HistoryActivity.class);
             startActivity(intent);
         }
@@ -165,6 +212,12 @@ public class MainActivity extends AppCompatActivity {
                         credential.setSelectedAccount(googleAccount.getAccount());
                     })
                     .addOnFailureListener(exception -> Log.e(TAG, "Unable to sign in.", exception));
+
+        }
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            textViewGmail.setText(account.getEmail());
+            textViewGmail.setTextColor(getResources().getColor(R.color.blue));
         }
     }
 
@@ -193,7 +246,9 @@ public class MainActivity extends AppCompatActivity {
         if (account != null) {
             textViewGmail.setText(account.getEmail());
             textViewGmail.setTextColor(getResources().getColor(R.color.blue));
+            Toast.makeText(MainActivity.this,"Вы успешно вошли в аккаунт",Toast.LENGTH_LONG).show();
         }
+
     }
 
 }

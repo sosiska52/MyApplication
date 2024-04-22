@@ -18,6 +18,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,20 +62,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         findViewById(R.id.imageButtonHistoryINAddData).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.buttonSaveData).setOnClickListener(view -> createCSVFile());
         findViewById(R.id.buttonClearData).setOnClickListener(view -> clearFields());
-        // Геолокация
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0, 0, this);
+
 
         textFixation = findViewById(R.id.textFixation);
         textFixation.setText(sharedStops.getString("stop","Остановка"));
@@ -189,6 +178,21 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 R.array.transport_options, android.R.layout.simple_spinner_item);
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
+
+        // Геолокация
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                0, 0, this);
     }
 
     @Override
@@ -204,6 +208,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         editor.putString("editTextPassengersIn", editTextPassengersIn.getText().toString());
         editor.apply();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -228,56 +233,81 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
             textViewProgress.setText(selectedStopFullness);
             //seekBarStopFullness.setProgress(Integer.parseInt(selectedTransportFullness));
         }
-        int stopFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
-        if (stopFullnessIndex != -1) {
-            spinnerTransportFullness.setSelection(stopFullnessIndex);
+        if(!selectedTransportFullness.equals("")) {
+            int stopFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
+            if (stopFullnessIndex != -1) {
+                spinnerTransportFullness.setSelection(stopFullnessIndex);
+            }
         }
-
-        int transportIndex = adapterTransport.getPosition(selectedTransport);
-        if (transportIndex != -1) {
-            spinnerTransport.setSelection(transportIndex);
-            spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedItem = (String) parent.getItemAtPosition(position);
-                    // Обработка выбора элемента
-                    Resources res = getResources();
-                    if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
-                            selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
-                            selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
-                        adapterPath = new ArrayAdapter<String>(DataActivity.this,
-                                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.bus_options));
+        if(!selectedTransport.equals("")) {
+            int transportIndex = adapterTransport.getPosition(selectedTransport);
+            if (transportIndex != -1) {
+                spinnerTransport.setSelection(transportIndex);
+                spinnerTransport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedItem = (String) parent.getItemAtPosition(position);
+                        // Обработка выбора элемента
+                        Resources res = getResources();
+                        if (selectedItem.equals(res.getStringArray(R.array.transport_options)[1]) ||
+                                selectedItem.equals(res.getStringArray(R.array.transport_options)[2]) ||
+                                selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
+                            adapterPath = new ArrayAdapter<String>(DataActivity.this,
+                                    android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.bus_options));
 //                        autoCompleteTextViewPathNumber = (AutoCompleteTextView)
 //                                findViewById(R.id.autoCompleteTextViewPathNumber);
-                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
-                        adapterPath = new ArrayAdapter<String>(DataActivity.this,
-                                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.trolleybus_options));
-                    } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[5])) {
-                        adapterPath = new ArrayAdapter<String>(DataActivity.this,
-                                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.minibus_options));
-                    } else {
-                        adapterPath = new ArrayAdapter<String>(DataActivity.this,
-                                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.error_optins));
-                    }
-                    //adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    autoCompleteTextViewPathNumber.setAdapter(adapterPath);
+                        } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
+                            adapterPath = new ArrayAdapter<String>(DataActivity.this,
+                                    android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.trolleybus_options));
+                        } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[5])) {
+                            adapterPath = new ArrayAdapter<String>(DataActivity.this,
+                                    android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.minibus_options));
+                        } else {
+                            adapterPath = new ArrayAdapter<String>(DataActivity.this,
+                                    android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.error_optins));
+                        }
+                        //adapterPath.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        autoCompleteTextViewPathNumber.setAdapter(adapterPath);
+                        autoCompleteTextViewPathNumber.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    if (!selectedPath.isEmpty()) {
-                        autoCompleteTextViewPathNumber.setText(selectedPath);
-                    }
-                }
+                            }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Обработка, если ни один элемент не выбран
-                }
-            });
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                String enteredText = s.toString();
+                                boolean isTextInList = adapterPath.getPosition(enteredText) > -1;
+
+                                if (isTextInList) {
+                                    // Если введенный текст есть в списке, устанавливаем цвет текста по умолчанию
+                                    autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.purple));
+                                } else {
+                                    // Если введенного текста нет в списке, устанавливаем красный цвет текста
+                                    autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.red));
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // Обработка, если ни один элемент не выбран
+                    }
+                });
+            }
+        }
+        if (!selectedPath.isEmpty()) {
+            autoCompleteTextViewPathNumber.setText(selectedPath);
+            selectedPath=null;
         }
 
-        int transportFullnessIndex = adapterTransportFullness.getPosition(selectedTransportFullness);
-        if (transportFullnessIndex != -1) {
-            spinnerTransportFullness.setSelection(transportFullnessIndex);
-        }
 
 
         SharedPreferences sharedPhoto = getSharedPreferences("Photo", Context.MODE_PRIVATE);
@@ -343,6 +373,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         editorPhoto.clear();
         editorPhoto.apply();
         //textViewProgress.setText("Человек: 0");
+        autoCompleteTextViewPathNumber.setText("");
         spinnerTransport.setSelection(0);
         autoCompleteTextViewPathNumber.setText("");
         spinnerTransportFullness.setSelection(0);
@@ -426,7 +457,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                             "Высота места над уровнем моря" + "," + "Число пассажиров на остановке" + "," + "Номер маршрута транспортного средства" +
                             "," + "Тип транспорта" + "," + "Степень заполненности транспортного средства" + "," + "Число вошедших пассажиров" + "," + "Число вышедших пассажиров" + "\n");
                     writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").
-                            append(sharedStops.getString("stop","")).append(sharedStops.getString("nextStop","")).
+                            append(sharedStops.getString("stop","")).append(",").append(sharedStops.getString("nextStop","")).
                             append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).
                             append(",").append(String.valueOf(altitude)).append(",").append(textViewProgress.getText().toString()).
                             append(",").append(autoCompleteTextViewPathNumber.getText().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").
@@ -440,7 +471,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     editor2.apply();
                     Toast.makeText(DataActivity.this, "Фиксация сохранена", Toast.LENGTH_SHORT).show();
                     clearFields();
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
