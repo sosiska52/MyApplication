@@ -45,7 +45,8 @@ public class HistoryActivity extends AppCompatActivity {
     private Drive mDriveService;
     private final ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
     private HistoryAdapter adapter;
-    private int countErrors =0;
+    private int countErrors =0, countUploaded = 0;
+    private ListView listView;
 
     private SharedPreferences sharedHistoryInfo;
     @SuppressLint("SetTextI18n")
@@ -64,18 +65,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         makeListView();
         adapter = new HistoryAdapter(this, historyItems);
-        ListView listView = findViewById(R.id.listViewHistory);
+        listView = findViewById(R.id.listViewHistory);
         listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            // Получаем текст элемента, на который кликнули
-            //String selectedItem = (String) parent.getItemAtPosition(position);
-
-            // Выводим сообщение с текстом выбранного элемента
-            //Toast.makeText(HistoryActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
-        });
-
-
 
 
         findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
@@ -96,7 +87,6 @@ public class HistoryActivity extends AppCompatActivity {
             Object value = entry.getValue();
             //Toast.makeText(HistoryActivity.this, entry.getKey().toString(), Toast.LENGTH_SHORT).show();
             takeInfoFromCSV(value.toString());
-
         }
     }
     private void takeInfoFromCSV(String fileNames) {
@@ -111,7 +101,7 @@ public class HistoryActivity extends AppCompatActivity {
             line = reader.readLine();
             line = reader.readLine();
                 String[] data = line.split(","); // Предположим, что данные в CSV разделены запятыми
-                if (data.length == 12) { // Проверяем, что строка содержит все поля
+                if (data.length == 13) { // Проверяем, что строка содержит все поля
                     ArrayList<String> historyItem1 = new ArrayList<>();
                     historyItem1.add(data[8]); // Тип транспорта
                     historyItem1.add(data[7]); // Номер транспорта
@@ -123,6 +113,7 @@ public class HistoryActivity extends AppCompatActivity {
                     historyItem1.add(data[10]); // Сколько вошло
                     historyItem1.add(data[11]); // Сколько вышло
                     historyItem1.add(data[2]); // Название остановки
+                    historyItem1.add(data[3]);
                     historyItem1.add(data[6]); // Заполненость остановки
                     historyItems.add(historyItem1); // Добавляем в список
                 }  // Логика обработки неправильной строки CSV (например, пропустить или обработать ошибку)
@@ -165,7 +156,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }
 
-// Очистить папку с CSV файлами
+        // Очистить папку с CSV файлами
         if (csvFileDir.exists() && csvFileDir.isDirectory()) {
             java.io.File[] csvFiles = csvFileDir.listFiles();
             if (csvFiles != null) {
@@ -180,6 +171,7 @@ public class HistoryActivity extends AppCompatActivity {
         editor.apply();
         adapter.clear();
         adapter.notifyDataSetChanged();
+        listView.setAdapter(adapter);
     }
     private void requestSignIn() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -200,6 +192,7 @@ public class HistoryActivity extends AppCompatActivity {
         } else {
             Toast.makeText(HistoryActivity.this, "Войдите в аккаунт ", Toast.LENGTH_SHORT).show();
         }
+
     }
     private void uploadImages(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
@@ -214,21 +207,27 @@ public class HistoryActivity extends AppCompatActivity {
         }else{
             Toast.makeText(HistoryActivity.this, countErrors+" Files faild", Toast.LENGTH_SHORT).show();
         }
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+        listView.setAdapter(adapter);
     }
     private void uploadImageToDrive(String fileNames) {
         if (mDriveService!=null) {
             java.io.File mediaStorageDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), "MyCameraApp");
             java.io.File imageFile = new java.io.File(mediaStorageDir.getPath() + java.io.File.separator + fileNames+".jpg");
+
             java.io.File csvFileDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
             java.io.File csvFile = new java.io.File(csvFileDir.getPath() + java.io.File.separator + fileNames+".csv");
 
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            ByteArrayContent imageContent = new ByteArrayContent("image/jpeg", outputStream.toByteArray());
-
+            ByteArrayContent imageContent = null;
+            if(imageFile.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                imageContent = new ByteArrayContent("image/jpeg", outputStream.toByteArray());
+            }
             // Загружаем CSV файл
             ByteArrayContent csvContent = null;
             try {
@@ -242,8 +241,16 @@ public class HistoryActivity extends AppCompatActivity {
             }
 
             // Выполняем загрузку изображения и CSV файлаe
-            if (csvContent != null) {
+            if (csvContent != null && imageContent !=null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
+                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(String.valueOf(position));
+                editor.apply();
+                imageFile.delete();
+                csvFile.delete();
+            } else if(csvContent != null && imageContent ==null) {
+                new HistoryActivity.UploadImageTask(fileNames).execute(csvContent);
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove(String.valueOf(position));
@@ -257,6 +264,8 @@ public class HistoryActivity extends AppCompatActivity {
             Toast.makeText(HistoryActivity.this, "Sign in to your account", Toast.LENGTH_SHORT).show();
         }
     }
+
+
     @SuppressLint("StaticFieldLeak")
     private class UploadImageTask extends AsyncTask<ByteArrayContent, Void, String> {
         private final String fileNames;
@@ -276,15 +285,23 @@ public class HistoryActivity extends AppCompatActivity {
                     List<String> parents = Collections.singletonList(folderId);
                     fileMetadata.setParents(parents);
                 }
-                File imageFile = mDriveService.files().create(fileMetadata, params[0])
-                        .setFields("id")
-                        .execute();
+                if(params.length==1) {
+                    fileMetadata.setName(fileNames+".csv");
+                    File csvFile = mDriveService.files().create(fileMetadata, params[0])
+                            .setFields("id")
+                            .execute();
+                    return csvFile.getId();
 
-                fileMetadata.setName(fileNames+".csv");
-                File csvFile = mDriveService.files().create(fileMetadata, params[1])
-                        .setFields("id")
-                        .execute();
-                return imageFile.getId() + "," + csvFile.getId();
+                }else {
+                    File imageFile = mDriveService.files().create(fileMetadata, params[0])
+                            .setFields("id")
+                            .execute();
+                    fileMetadata.setName(fileNames + ".csv");
+                    File csvFile = mDriveService.files().create(fileMetadata, params[1])
+                            .setFields("id")
+                            .execute();
+                    return imageFile.getId() + "," + csvFile.getId();
+                }
             } catch (UserRecoverableAuthIOException e) {
                 startActivityForResult(e.getIntent(), REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR);
                 return null;

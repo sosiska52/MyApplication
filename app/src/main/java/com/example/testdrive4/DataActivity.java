@@ -432,14 +432,15 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
     private void createCSVFile() {
         if(checkFields()) {
             try {
-
+                if(timeStamp==0)
+                    timeStamp = System.currentTimeMillis();
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences sharedPreferencesID = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 Map<String, ?> allEntries = sharedPreferences.getAll();
                 int sizeKeys = allEntries.size();
-                editor.putString(String.valueOf(sizeKeys), sharedPreferencesID.getString("surname", "") + " " + timeStamp);
+                editor.putString(String.valueOf(sizeKeys), sharedPreferencesID.getString("surname", "") + "_" + timeStamp);
                 editor.apply();
                 java.io.File csvFileDir = new File(Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
@@ -449,7 +450,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     }
                 }
                 java.io.File csvFile = new java.io.File(csvFileDir.getPath() + java.io.File.separator +
-                        sharedPreferencesID.getString("surname", "") + " " + timeStamp + ".csv");
+                        sharedPreferencesID.getString("surname", "") + "_" + timeStamp + ".csv");
                 if (!csvFile.exists()) {
                     csvFile.createNewFile();
                     FileWriter writer = new FileWriter(csvFile);

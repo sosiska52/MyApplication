@@ -105,6 +105,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/historySecondLine"
         android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/historyNextStopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/historySecondLine"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/historyStopFullness"

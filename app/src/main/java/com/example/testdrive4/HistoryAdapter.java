@@ -59,6 +59,7 @@ public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
         TextView passengersIn = listItem.findViewById(R.id.historyPassengersIn);
         TextView passengersOut = listItem.findViewById(R.id.historyPassengersOut);
         TextView stopName = listItem.findViewById(R.id.historyStopName);
+        TextView nextStopName = listItem.findViewById(R.id.historyNextStopName);
         TextView stopFullness = listItem.findViewById(R.id.historyStopFullness);
 
         // Заполните текстовые поля данными из currentItem
@@ -69,7 +70,8 @@ public class HistoryAdapter extends ArrayAdapter<ArrayList<String>> {
         passengersIn.setText(currentItem.get(4));
         passengersOut.setText(currentItem.get(5));
         stopName.setText(currentItem.get(6));
-        stopFullness.setText(currentItem.get(7));
+        nextStopName.setText(currentItem.get(7));
+        stopFullness.setText(currentItem.get(8));
 
         return listItem;
     }
