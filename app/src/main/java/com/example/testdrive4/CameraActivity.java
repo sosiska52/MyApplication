@@ -270,7 +270,7 @@ private void saveImage(byte[] bytes) throws IOException {
         //long timeStamp = System.currentTimeMillis();
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                sharedPreferencesID.getString("surname","")+" "+timeStamp + ".jpg");
+                sharedPreferencesID.getString("surname","")+"_"+timeStamp + ".jpg");
 
         SharedPreferences sharedPhoto = getSharedPreferences("Photo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPhoto.edit();

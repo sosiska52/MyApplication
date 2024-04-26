@@ -145,8 +145,6 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                         selectedItem.equals(res.getStringArray(R.array.transport_options)[3])) {
                     adapterPath = new ArrayAdapter<String>(DataActivity.this,
                             android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.bus_options));
-//                        autoCompleteTextViewPathNumber = (AutoCompleteTextView)
-//                                findViewById(R.id.autoCompleteTextViewPathNumber);
                 } else if (selectedItem.equals(res.getStringArray(R.array.transport_options)[4])) {
                     adapterPath = new ArrayAdapter<String>(DataActivity.this,
                             android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.trolleybus_options));
@@ -191,8 +189,13 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     1);
             return;
         }
+
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+//                0, 0, this);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0, 0, this);
+                1000*10, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                1000*10, 10, this);
     }
 
     @Override
@@ -231,6 +234,8 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         }
         if (!selectedStopFullness.isEmpty()) {
             textViewProgress.setText(selectedStopFullness);
+
+            seekBarStopFullness.setProgress(Integer.parseInt(selectedStopFullness.split(" ")[1]));
             //seekBarStopFullness.setProgress(Integer.parseInt(selectedTransportFullness));
         }
         if(!selectedTransportFullness.equals("")) {

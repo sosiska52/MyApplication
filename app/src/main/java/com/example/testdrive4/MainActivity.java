@@ -1,5 +1,6 @@
 package com.example.testdrive4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.drive.DriveScopes;
 
@@ -218,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         if (account != null) {
             textViewGmail.setText(account.getEmail());
             textViewGmail.setTextColor(getResources().getColor(R.color.blue));
+            Toast.makeText(MainActivity.this, "Вы успешно вошли в аккаунт", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,17 +242,17 @@ public class MainActivity extends AppCompatActivity {
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
                         .requestScopes(new Scope(DriveScopes.DRIVE))
-
                         .build();
         GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
-        startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            textViewGmail.setText(account.getEmail());
-            textViewGmail.setTextColor(getResources().getColor(R.color.blue));
-            Toast.makeText(MainActivity.this,"Вы успешно вошли в аккаунт",Toast.LENGTH_LONG).show();
-        }
 
+        // Предварительно выйти из текущего аккаунта, чтобы пользователь мог выбрать новый
+        client.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // Открываем окно выбора аккаунта
+                startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
+            }
+        });
     }
 
 }

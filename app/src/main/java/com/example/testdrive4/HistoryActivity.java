@@ -1,9 +1,11 @@
 package com.example.testdrive4;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -45,9 +47,9 @@ public class HistoryActivity extends AppCompatActivity {
     private Drive mDriveService;
     private final ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
     private HistoryAdapter adapter;
-    private int countErrors =0, countUploaded = 0;
+    private int countErrors =0, countUploaded = 0, countAll = 0;
     private ListView listView;
-
+    private boolean cheakClear = false;
     private SharedPreferences sharedHistoryInfo;
     @SuppressLint("SetTextI18n")
     @Override
@@ -72,7 +74,7 @@ public class HistoryActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
         findViewById(R.id.imageButtonRegistrationINHistory).setOnClickListener(view -> startMainActivity());
         findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
-        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> clearShared());
+        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> showConfirmationDialog());
         requestSignIn();
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
@@ -80,6 +82,59 @@ public class HistoryActivity extends AppCompatActivity {
             //Toast.makeText(HistoryActivity.this, entry.getKey() +" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
         }
     }
+    private void deleteFileNames(String fileNames){
+        SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorSaves = sharedPreferences.edit();
+        Map<String, ?> allEntries = sharedPreferences.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            if(entry.getValue().toString().equals(fileNames)){
+                editorSaves.remove(entry.getKey());
+            }
+        }
+        editorSaves.apply();
+        java.io.File mediaStorageDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        java.io.File imageFile = new java.io.File(mediaStorageDir.getPath() + java.io.File.separator + fileNames + ".jpg");
+
+        java.io.File csvFileDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
+        java.io.File csvFile = new java.io.File(csvFileDir.getPath() + java.io.File.separator + fileNames + ".csv");
+
+        if (imageFile.exists()) {
+            imageFile.delete();
+        }
+
+        if (csvFile.exists()) {
+            csvFile.delete();
+        }
+    }
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Подтверждение");
+        builder.setMessage("Вы уверены, что хотите удилить данные?");
+
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clearShared();
+                dialog.dismiss();
+
+            }
+        });
+
+        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
     private void makeListView(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
@@ -141,6 +196,7 @@ public class HistoryActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void clearShared(){
+
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         java.io.File mediaStorageDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
@@ -197,19 +253,19 @@ public class HistoryActivity extends AppCompatActivity {
     private void uploadImages(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
+        countAll=allEntries.size();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
-            position=Integer.parseInt(entry.getKey());
             uploadImageToDrive(value.toString());
         }
-        if(countErrors==0) {
-            Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(HistoryActivity.this, countErrors+" Files faild", Toast.LENGTH_SHORT).show();
-        }
-        adapter.clear();
-        adapter.notifyDataSetChanged();
-        listView.setAdapter(adapter);
+//        if(countErrors==0) {
+//            Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
+//        }else{
+//            Toast.makeText(HistoryActivity.this, countErrors+" Files faild", Toast.LENGTH_SHORT).show();
+//        }
+//        adapter.clear();
+//        adapter.notifyDataSetChanged();
+//        listView.setAdapter(adapter);
     }
     private void uploadImageToDrive(String fileNames) {
         if (mDriveService!=null) {
@@ -222,7 +278,8 @@ public class HistoryActivity extends AppCompatActivity {
             java.io.File csvFile = new java.io.File(csvFileDir.getPath() + java.io.File.separator + fileNames+".csv");
 
             ByteArrayContent imageContent = null;
-            if(imageFile.exists()) {
+            if(imageFile.exists())
+            {
                 Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -243,20 +300,8 @@ public class HistoryActivity extends AppCompatActivity {
             // Выполняем загрузку изображения и CSV файлаe
             if (csvContent != null && imageContent !=null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
-                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(String.valueOf(position));
-                editor.apply();
-                imageFile.delete();
-                csvFile.delete();
             } else if(csvContent != null && imageContent ==null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(csvContent);
-                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove(String.valueOf(position));
-                editor.apply();
-                imageFile.delete();
-                csvFile.delete();
             } else {
                 Toast.makeText(HistoryActivity.this, "Failed to load image or CSV file", Toast.LENGTH_SHORT).show();
             }
@@ -315,15 +360,37 @@ public class HistoryActivity extends AppCompatActivity {
         protected void onPostExecute(String fileId) {
             super.onPostExecute(fileId);
             if (fileId != null) {
-                //Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(HistoryActivity.this, "Files uploaded successfully"+fileNames, Toast.LENGTH_SHORT).show();
+//                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editorSaves = sharedPreferences.edit();
+//                editorSaves.remove(String.valueOf(fileNames));
+//                editorSaves.apply();
+
+
+                deleteFileNames(fileNames);
                 SharedPreferences.Editor editor = sharedHistoryInfo.edit();
                 int sent = sharedHistoryInfo.getInt("Sent",0)+1;
                 editor.putInt("Sent",sent);
                 editor.apply();
+
+                listView.setAdapter(adapter);
+                countUploaded++;
             } else {
                 //Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
                 countErrors++;
             }
+            if(countUploaded+countErrors==countAll)
+            {
+                Toast.makeText(HistoryActivity.this, "Успешно отправленно файлов : " + countUploaded +"\n Не отправленно файлов : "+countErrors, Toast.LENGTH_SHORT).show();
+                countUploaded=0;
+                countErrors=0;
+                adapter.clear();
+                adapter.notifyDataSetChanged();
+                makeListView();
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+            }
         }
     }
+
 }
