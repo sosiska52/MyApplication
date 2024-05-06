@@ -43,38 +43,39 @@ import java.util.Map;
 
 public class HistoryActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1001;
-    private int position =0;
     private Drive mDriveService;
     private final ArrayList<ArrayList<String>> historyItems = new ArrayList<>();
     private HistoryAdapter adapter;
     private int countErrors =0, countUploaded = 0, countAll = 0;
     private ListView listView;
-    private boolean cheakClear = false, cheakUpload = true;
+    private boolean cheakUpload = true;
     private SharedPreferences sharedHistoryInfo;
+    private TextView textViewDataSavedNumber,textViewDataSentNumber;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-
         sharedHistoryInfo = getSharedPreferences("HistoryInfo", Context.MODE_PRIVATE);
 
-        TextView textViewDataSavedNumber = findViewById(R.id.textViewDataSavedNumber);
-        TextView textViewDataSentNumber = findViewById(R.id.textViewDataSentNumber);
-
+        //Поля
+        textViewDataSavedNumber = findViewById(R.id.textViewDataSavedNumber);
+        textViewDataSentNumber = findViewById(R.id.textViewDataSentNumber);
         textViewDataSavedNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Saved",0)));
         textViewDataSentNumber.setText(Integer.toString(sharedHistoryInfo.getInt("Sent",0)));
 
+        //Методы
+        findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
+        findViewById(R.id.imageButtonRegistrationINHistory).setOnClickListener(view -> startMainActivity());
+        findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
+        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> showConfirmationDialog());
+
+        //Список с записями
         makeListView();
         adapter = new HistoryAdapter(this, historyItems);
         listView = findViewById(R.id.listViewHistory);
         listView.setAdapter(adapter);
 
-
-        findViewById(R.id.imageButtonAddDataINHistory).setOnClickListener(view -> startDataActivity());
-        findViewById(R.id.imageButtonRegistrationINHistory).setOnClickListener(view -> startMainActivity());
-        findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
-        findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> showConfirmationDialog());
         requestSignIn();
     }
     private void deleteFileNames(String fileNames){
@@ -108,34 +109,19 @@ public class HistoryActivity extends AppCompatActivity {
         builder.setTitle("Подтверждение");
         builder.setMessage("Вы уверены, что хотите удилить данные?");
 
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                clearShared();
-                dialog.dismiss();
-
-            }
+        builder.setPositiveButton("Да", (dialog, which) -> {
+            clearShared();
+            dialog.dismiss();
         });
-
-        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
+        builder.setNegativeButton("Нет", (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
-
     private void makeListView(){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         Map<String, ?> allEntries = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Object value = entry.getValue();
-            //Toast.makeText(HistoryActivity.this, entry.getKey().toString(), Toast.LENGTH_SHORT).show();
             takeInfoFromCSV(value.toString());
         }
     }
@@ -150,12 +136,12 @@ public class HistoryActivity extends AppCompatActivity {
             //while ((line = reader.readLine()) != null) {
             line = reader.readLine();
             line = reader.readLine();
-                String[] data = line.split(","); // Предположим, что данные в CSV разделены запятыми
-                if (data.length == 13) { // Проверяем, что строка содержит все поля
+                String[] data = line.split(",");
+                if (data.length == 13) {
                     ArrayList<String> historyItem1 = new ArrayList<>();
-                    historyItem1.add(data[8]); // Тип транспорта
-                    historyItem1.add(data[7]); // Номер транспорта
-                    Date date = new Date(Long.parseLong(data[0])); // Создаем объект Date из миллисекунд
+                    historyItem1.add(data[8]);
+                    historyItem1.add(data[7]);
+                    Date date = new Date(Long.parseLong(data[0]));
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     String formattedTime = sdf.format(date);
                     historyItem1.add(formattedTime); // Время
@@ -166,9 +152,7 @@ public class HistoryActivity extends AppCompatActivity {
                     historyItem1.add(data[3]);
                     historyItem1.add(data[6]); // Заполненость остановки
                     historyItems.add(historyItem1); // Добавляем в список
-                }  // Логика обработки неправильной строки CSV (например, пропустить или обработать ошибку)
-
-            //}
+                }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -181,7 +165,6 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }
     }
-
     public void startMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -191,13 +174,12 @@ public class HistoryActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void clearShared(){
-
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
         java.io.File mediaStorageDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
         java.io.File csvFileDir = new java.io.File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS), "MyAppFolder");
-        // Очистить папку с изображениями
+
         if (mediaStorageDir.exists() && mediaStorageDir.isDirectory()) {
             java.io.File[] imageFiles = mediaStorageDir.listFiles();
             if (imageFiles != null) {
@@ -207,7 +189,6 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }
 
-        // Очистить папку с CSV файлами
         if (csvFileDir.exists() && csvFileDir.isDirectory()) {
             java.io.File[] csvFiles = csvFileDir.listFiles();
             if (csvFiles != null) {
@@ -227,7 +208,6 @@ public class HistoryActivity extends AppCompatActivity {
     private void requestSignIn() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
-            // Если учетные данные есть, используем их для аутентификации
             GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(
                     this, Collections.singleton(DriveScopes.DRIVE_FILE));
             credential.setSelectedAccount(account.getAccount());
@@ -277,7 +257,7 @@ public class HistoryActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 imageContent = new ByteArrayContent("image/jpeg", outputStream.toByteArray());
             }
-            // Загружаем CSV файл
+
             ByteArrayContent csvContent = null;
             try {
                 FileInputStream fileInputStream = new FileInputStream(csvFile);
@@ -289,10 +269,10 @@ public class HistoryActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // Выполняем загрузку изображения и CSV файлаe
+
             if (csvContent != null && imageContent !=null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(imageContent, csvContent);
-            } else if(csvContent != null && imageContent ==null) {
+            } else if(csvContent != null) {
                 new HistoryActivity.UploadImageTask(fileNames).execute(csvContent);
             } else {
                 Toast.makeText(HistoryActivity.this, "Failed to load image or CSV file", Toast.LENGTH_SHORT).show();
@@ -301,8 +281,6 @@ public class HistoryActivity extends AppCompatActivity {
             Toast.makeText(HistoryActivity.this, "Sign in to your account", Toast.LENGTH_SHORT).show();
         }
     }
-
-
     @SuppressLint("StaticFieldLeak")
     private class UploadImageTask extends AsyncTask<ByteArrayContent, Void, String> {
         private final String fileNames;
@@ -352,13 +330,6 @@ public class HistoryActivity extends AppCompatActivity {
         protected void onPostExecute(String fileId) {
             super.onPostExecute(fileId);
             if (fileId != null) {
-//                Toast.makeText(HistoryActivity.this, "Files uploaded successfully"+fileNames, Toast.LENGTH_SHORT).show();
-//                SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editorSaves = sharedPreferences.edit();
-//                editorSaves.remove(String.valueOf(fileNames));
-//                editorSaves.apply();
-
-
                 deleteFileNames(fileNames);
                 SharedPreferences.Editor editor = sharedHistoryInfo.edit();
                 int sent = sharedHistoryInfo.getInt("Sent",0)+1;
@@ -368,7 +339,6 @@ public class HistoryActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
                 countUploaded++;
             } else {
-                //Toast.makeText(HistoryActivity.this, "Failed to upload files", Toast.LENGTH_SHORT).show();
                 countErrors++;
             }
             if(countUploaded+countErrors==countAll)

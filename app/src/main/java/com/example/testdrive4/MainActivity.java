@@ -48,32 +48,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedStops = getSharedPreferences("Stops", Context.MODE_PRIVATE);
         editorStops = sharedStops.edit();
+        SharedPreferences sharedUserInfo = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         //Поля
         textViewGmail = findViewById(R.id.textViewGmail);
         editTextSurname=findViewById(R.id.editTextSurname);
         editTextURL=findViewById(R.id.editTextURL);
-        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-
-        editTextSurname.setText(sharedPreferences.getString("surname", ""));
-        editTextURL.setText(sharedPreferences.getString("URL", ""));
+        editTextSurname.setText(sharedUserInfo.getString("surname", ""));
+        editTextURL.setText(sharedUserInfo.getString("URL", ""));
         //Методы
         findViewById(R.id.buttonSaveRegistration).setOnClickListener(view -> saveInfo(true));
         findViewById(R.id.buttonLogIn).setOnClickListener(view -> requestSignInRegister());
         findViewById(R.id.imageButtonHistoryINRegistration).setOnClickListener(view -> startHistoryActivity());
         findViewById(R.id.imageButtonAddDataINRegistration).setOnClickListener(view -> startDataActivity());
-        //findViewById(R.id.deleteButton).setOnClickListener(view -> clearShared());
-        /////////
 
-        adapterStop = new ArrayAdapter<String>(MainActivity.this,
+        //autoCompleteTextView
+        adapterStop = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
-        autoCompleteTextViewStop = (AutoCompleteTextView)
-                findViewById(R.id.autoCompleteTextViewStop);
+        autoCompleteTextViewStop = findViewById(R.id.autoCompleteTextViewStop);
         autoCompleteTextViewStop.setAdapter(adapterStop);
 
-        adapterNextStop = new ArrayAdapter<String>(MainActivity.this,
+        adapterNextStop = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
-        autoCompleteTextViewNextStop = (AutoCompleteTextView)
-                findViewById(R.id.autoCompleteTextViewNextStop);
+        autoCompleteTextViewNextStop = findViewById(R.id.autoCompleteTextViewNextStop);
         autoCompleteTextViewNextStop.setAdapter(adapterNextStop);
         autoCompleteTextViewNextStop.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -135,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         String stop = sharedStops.getString("stop", "");
         String nextStop = sharedStops.getString("nextStop", "");
-
 
         if(!stop.isEmpty()){
             autoCompleteTextViewStop.setText(stop);
@@ -245,13 +239,8 @@ public class MainActivity extends AppCompatActivity {
                         .build();
         GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
 
-        // Предварительно выйти из текущего аккаунта, чтобы пользователь мог выбрать новый
-        client.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                // Открываем окно выбора аккаунта
-                startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
-            }
+        client.signOut().addOnCompleteListener(this, task -> {
+            startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
         });
     }
 
