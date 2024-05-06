@@ -39,7 +39,6 @@
     <string name="button_history_clear_all_history">Очистить историю</string>
 
     <string-array name = "stop_options">
-        <item>Остановка</item>
         <item>28 июля</item>
         <item>4-й Форт</item>
         <item>Абрикосовая</item>
@@ -407,7 +406,6 @@
     </string-array>
 
     <string-array name="bus_options">
-        <item>Номер маршрута</item>
         <item>1</item>
         <item>1А</item>
         <item>2</item>
@@ -473,7 +471,6 @@
     </string-array>
 
     <string-array name="trolleybus_options">
-        <item>Номер маршрута</item>
         <item>100</item>
         <item>101</item>
         <item>101А</item>
@@ -490,7 +487,6 @@
     </string-array>
 
     <string-array name="minibus_options">
-        <item>Номер маршрута</item>
         <item>1</item>
         <item>2</item>
         <item>4</item>

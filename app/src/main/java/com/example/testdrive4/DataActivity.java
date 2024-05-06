@@ -1,6 +1,7 @@
 package com.example.testdrive4;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -18,6 +19,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -32,6 +34,8 @@ import android.widget.Toast;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
@@ -54,7 +58,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
         Intent intent = getIntent();
-        timeStamp = intent.getLongExtra("time",0L);
+        //timeStamp = intent.getLongExtra("time",0L);
         sharedStops = getSharedPreferences("Stops",MODE_PRIVATE);
         //Методы
         findViewById(R.id.imageButtonRegistrationINAddData).setOnClickListener(view -> startMainActivity());
@@ -327,8 +331,43 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         }
 
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(image);
+            File pictureFile = getOutputMediaFile();
+            if (pictureFile != null) {
+                try (FileOutputStream fos = new FileOutputStream(pictureFile)) {
+                    image.compress(Bitmap.CompressFormat.JPEG, 100, fos); // Сохраняем повернутое изображение
+                    //Toast.makeText(CameraActivity.this, "Image saved: " + pictureFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private File getOutputMediaFile() {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        SharedPreferences sharedPreferencesID = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        timeStamp = System.currentTimeMillis();
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                sharedPreferencesID.getString("surname","")+"_"+timeStamp + ".jpg");
 
-
+        SharedPreferences sharedPhoto = getSharedPreferences("Photo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPhoto.edit();
+        editor.putString("Photo", mediaFile.getAbsolutePath());
+        editor.apply();
+        return mediaFile;
+    }
 
 
 
@@ -363,9 +402,15 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         startActivity(intent);
     }
     public void startCameraActivity(){
-        Intent intent = new Intent(this, CameraActivity.class);
-        startActivity(intent);
-
+//        Intent intent = new Intent(this, CameraActivity.class);
+//        startActivity(intent);
+        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, 1);
+        } else {
+            //Request camera permission if we don't have it.
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        }
     }
     private void clearFields(){
         SharedPreferences DataPause = getSharedPreferences("DataPause", Context.MODE_PRIVATE);

@@ -49,7 +49,7 @@ public class HistoryActivity extends AppCompatActivity {
     private HistoryAdapter adapter;
     private int countErrors =0, countUploaded = 0, countAll = 0;
     private ListView listView;
-    private boolean cheakClear = false;
+    private boolean cheakClear = false, cheakUpload = true;
     private SharedPreferences sharedHistoryInfo;
     @SuppressLint("SetTextI18n")
     @Override
@@ -76,11 +76,6 @@ public class HistoryActivity extends AppCompatActivity {
         findViewById(R.id.buttonHistorySendData).setOnClickListener(view -> uploadImages());
         findViewById(R.id.buttonClearAllHistory).setOnClickListener(view -> showConfirmationDialog());
         requestSignIn();
-        SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
-        Map<String, ?> allEntries = sharedPreferences.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            //Toast.makeText(HistoryActivity.this, entry.getKey() +" "+entry.getValue().toString(), Toast.LENGTH_SHORT).show();
-        }
     }
     private void deleteFileNames(String fileNames){
         SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
@@ -251,21 +246,18 @@ public class HistoryActivity extends AppCompatActivity {
 
     }
     private void uploadImages(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
-        Map<String, ?> allEntries = sharedPreferences.getAll();
-        countAll=allEntries.size();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Object value = entry.getValue();
-            uploadImageToDrive(value.toString());
+        if(cheakUpload) {
+            cheakUpload=false;
+            SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
+            Map<String, ?> allEntries = sharedPreferences.getAll();
+            countAll = allEntries.size();
+            for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+                Object value = entry.getValue();
+                uploadImageToDrive(value.toString());
+            }
+        }else {
+            Toast.makeText(HistoryActivity.this, "Отправка уже идёт", Toast.LENGTH_SHORT).show();
         }
-//        if(countErrors==0) {
-//            Toast.makeText(HistoryActivity.this, "Files uploaded successfully", Toast.LENGTH_SHORT).show();
-//        }else{
-//            Toast.makeText(HistoryActivity.this, countErrors+" Files faild", Toast.LENGTH_SHORT).show();
-//        }
-//        adapter.clear();
-//        adapter.notifyDataSetChanged();
-//        listView.setAdapter(adapter);
     }
     private void uploadImageToDrive(String fileNames) {
         if (mDriveService!=null) {
@@ -389,6 +381,7 @@ public class HistoryActivity extends AppCompatActivity {
                 makeListView();
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
+                cheakUpload=true;
             }
         }
     }
