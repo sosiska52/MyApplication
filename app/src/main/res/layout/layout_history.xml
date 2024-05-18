@@ -104,19 +104,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/historySecondLine"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="temp1"/>
+
     <TextView
         android:id="@+id/historyNextStopName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/historySecondLine"
-        android:textColor="@color/black" />
+        android:layout_below="@id/historyStopName"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="temp2"/>
 
     <TextView
         android:id="@+id/historyStopFullness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/historyStopName"
-        android:textColor="@color/black"/>
+        android:layout_below="@id/historyNextStopName"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:text="temp1"/>
 
 </RelativeLayout>
