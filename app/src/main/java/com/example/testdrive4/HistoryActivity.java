@@ -138,18 +138,18 @@ public class HistoryActivity extends AppCompatActivity {
                 String[] data = line.split(",");
                 if (data.length == 13) {
                     ArrayList<String> historyItem1 = new ArrayList<>();
+                    historyItem1.add(data[9]);
                     historyItem1.add(data[8]);
-                    historyItem1.add(data[7]);
                     Date date = new Date(Long.parseLong(data[0]));
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     String formattedTime = sdf.format(date);
                     historyItem1.add(formattedTime); // Время
-                    historyItem1.add(data[9]); // Заполненость
-                    historyItem1.add(data[10]); // Сколько вошло
-                    historyItem1.add(data[11]); // Сколько вышло
+                    historyItem1.add(data[10]); // Заполненость
+                    historyItem1.add(data[11]); // Сколько вошло
+                    historyItem1.add(data[12]); // Сколько вышло
                     historyItem1.add(data[2]); // Название остановки
                     historyItem1.add(data[3]);
-                    historyItem1.add(data[6]); // Заполненость остановки
+                    historyItem1.add(data[7]); // Заполненость остановки
                     historyItems.add(historyItem1); // Добавляем в список
                 }
         } catch (IOException e) {

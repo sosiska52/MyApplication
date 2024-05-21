@@ -456,7 +456,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").
                             append(sharedStops.getString("stop","")).append(",").append(sharedStops.getString("nextStop","")).
                             append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).
-                            append(",").append(String.valueOf(altitude)).append(",").append(textViewProgress.getText().toString()).
+                            append(",").append(String.valueOf(altitude)).append(",").append(textViewProgress.getText().toString().split(" ")[1]).
                             append(",").append(autoCompleteTextViewPathNumber.getText().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").
                             append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).
                             append(",").append(editTextPassengersIn.getText().toString());
