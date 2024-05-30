@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -113,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isTextInList) {
                     autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.purple));
                     makeNewAdapter();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(autoCompleteTextViewStop.getWindowToken(), 0);
                 } else {
                     autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.red));
                 }
@@ -135,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (isTextInList) {
                     autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.purple));
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(autoCompleteTextViewNextStop.getWindowToken(), 0);
                 } else {
                     autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.red));
                 }

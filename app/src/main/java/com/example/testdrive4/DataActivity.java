@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -150,7 +151,13 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.error_optins));
         autoCompleteTextViewPathNumber = findViewById(R.id.autoCompleteTextViewPathNumber);
         autoCompleteTextViewPathNumber.setAdapter(adapterPath);
-
+        autoCompleteTextViewPathNumber.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(autoCompleteTextViewPathNumber.getWindowToken(), 0);
+            }
+        });
         adapterTransport = ArrayAdapter.createFromResource(this,
                 R.array.transport_options, android.R.layout.simple_spinner_item);
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -279,10 +286,12 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                                 if (isTextInList) {
                                     // Если введенный текст есть в списке, устанавливаем цвет текста по умолчанию
                                     autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.purple));
+
                                 } else {
                                     // Если введенного текста нет в списке, устанавливаем красный цвет текста
                                     autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.red));
                                 }
+
                             }
                         });
 
