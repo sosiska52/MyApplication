@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -39,7 +40,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class DataActivity extends AppCompatActivity implements LocationListener {
+public class DataActivity extends AppCompatActivity {
 
     private long timeStamp;
     private TextView editTextPassengersIn,editTextPassengersOut, textViewProgress ;
@@ -163,45 +164,9 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
 
-        // Геолокация
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-            return;
-        }
-
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000*10, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000*10, 10, this);
-    }
-    //Геолокация
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        altitude = location.getAltitude();
-    }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-    }
 
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        Toast.makeText(this, "Please enable GPS", Toast.LENGTH_SHORT).show();
-    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -438,6 +403,20 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
             try {
                 if(timeStamp==0)
                     timeStamp = System.currentTimeMillis();
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                }, 123);
+                GPSTracker g = new GPSTracker(getApplicationContext());
+                Location l = g.getLocation();
+                if (l != null) {
+                    latitude = l.getLatitude();
+                    longitude = l.getLongitude();
+                    altitude = l.getAltitude();
+//                    Toast.makeText(getApplicationContext(), "Широта: " + latitude + "\nДолгота: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Не удалось получить местоположение", Toast.LENGTH_LONG).show();
+                }
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences sharedPreferencesID = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
