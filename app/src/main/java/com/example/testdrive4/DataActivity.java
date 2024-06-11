@@ -21,7 +21,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -38,7 +40,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class DataActivity extends AppCompatActivity implements LocationListener {
+public class DataActivity extends AppCompatActivity {
 
     private long timeStamp;
     private TextView editTextPassengersIn,editTextPassengersOut, textViewProgress ;
@@ -150,51 +152,21 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.error_optins));
         autoCompleteTextViewPathNumber = findViewById(R.id.autoCompleteTextViewPathNumber);
         autoCompleteTextViewPathNumber.setAdapter(adapterPath);
-
+        autoCompleteTextViewPathNumber.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(autoCompleteTextViewPathNumber.getWindowToken(), 0);
+            }
+        });
         adapterTransport = ArrayAdapter.createFromResource(this,
                 R.array.transport_options, android.R.layout.simple_spinner_item);
         adapterTransport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTransport.setAdapter(adapterTransport);
 
-        // Геолокация
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-            return;
-        }
-
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                0, 0, this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000*10, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000*10, 10, this);
-    }
-    //Геолокация
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        altitude = location.getAltitude();
-    }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-    }
 
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        Toast.makeText(this, "Please enable GPS", Toast.LENGTH_SHORT).show();
-    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -279,10 +251,12 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                                 if (isTextInList) {
                                     // Если введенный текст есть в списке, устанавливаем цвет текста по умолчанию
                                     autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.purple));
+
                                 } else {
                                     // Если введенного текста нет в списке, устанавливаем красный цвет текста
                                     autoCompleteTextViewPathNumber.setTextColor(getResources().getColor(R.color.red));
                                 }
+
                             }
                         });
 
@@ -429,6 +403,20 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
             try {
                 if(timeStamp==0)
                     timeStamp = System.currentTimeMillis();
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                }, 123);
+                GPSTracker g = new GPSTracker(getApplicationContext());
+                Location l = g.getLocation();
+                if (l != null) {
+                    latitude = l.getLatitude();
+                    longitude = l.getLongitude();
+                    altitude = l.getAltitude();
+//                    Toast.makeText(getApplicationContext(), "Широта: " + latitude + "\nДолгота: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Не удалось получить местоположение", Toast.LENGTH_LONG).show();
+                }
                 SharedPreferences sharedPreferences = getSharedPreferences("Saves", Context.MODE_PRIVATE);
                 SharedPreferences sharedPreferencesID = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -456,7 +444,7 @@ public class DataActivity extends AppCompatActivity implements LocationListener 
                     writer.append(String.valueOf(timeStamp)).append(",").append(sharedPreferencesID.getString("surname", "")).append(",").
                             append(sharedStops.getString("stop","")).append(",").append(sharedStops.getString("nextStop","")).
                             append(",").append(String.valueOf(latitude)).append(",").append(String.valueOf(longitude)).
-                            append(",").append(String.valueOf(altitude)).append(",").append(textViewProgress.getText().toString()).
+                            append(",").append(String.valueOf(altitude)).append(",").append(textViewProgress.getText().toString().split(" ")[1]).
                             append(",").append(autoCompleteTextViewPathNumber.getText().toString()).append(",").append(spinnerTransport.getSelectedItem().toString()).append(",").
                             append(spinnerTransportFullness.getSelectedItem().toString()).append(",").append(editTextPassengersOut.getText().toString()).
                             append(",").append(editTextPassengersIn.getText().toString());

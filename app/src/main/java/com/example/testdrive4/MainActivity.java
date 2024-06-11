@@ -1,6 +1,5 @@
 package com.example.testdrive4;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -13,22 +12,29 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.drive.DriveScopes;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editorStops;
     private ArrayAdapter<String> adapterStop,adapterNextStop;
     private TextView textViewGmail;
+    private List<Stop> stopList;
+    private class Stop{
+        public String name;
+        public String moveto;
+        public double x;
+        public double y;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,37 +75,26 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.imageButtonAddDataINRegistration).setOnClickListener(view -> startDataActivity());
 
         //autoCompleteTextView
+        String jsonString = loadJSONFromAsset();
+        stopList = parseJSONWithGson(jsonString);
+
+        List<String> stopNames = new ArrayList<>();
+        for (int i =1;i<stopList.size();i++)
+        {
+            if(!stopList.get(i).name.equals(stopList.get(i-1).name)){
+                stopNames.add(stopList.get(i).name);
+            }
+        }
+
         adapterStop = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+                android.R.layout.simple_dropdown_item_1line, stopNames );
         autoCompleteTextViewStop = findViewById(R.id.autoCompleteTextViewStop);
         autoCompleteTextViewStop.setAdapter(adapterStop);
 
         adapterNextStop = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.stop_options));
+                android.R.layout.simple_dropdown_item_1line, stopNames);
         autoCompleteTextViewNextStop = findViewById(R.id.autoCompleteTextViewNextStop);
         autoCompleteTextViewNextStop.setAdapter(adapterNextStop);
-        autoCompleteTextViewNextStop.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String enteredText = s.toString();
-                boolean isTextInList = adapterNextStop.getPosition(enteredText) > -1;
-
-                if (isTextInList) {
-                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.purple));
-                } else {
-                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.red));
-                }
-            }
-        });
         autoCompleteTextViewStop.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,12 +113,73 @@ public class MainActivity extends AppCompatActivity {
 
                 if (isTextInList) {
                     autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.purple));
+                    makeNewAdapter();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(autoCompleteTextViewStop.getWindowToken(), 0);
                 } else {
                     autoCompleteTextViewStop.setTextColor(getResources().getColor(R.color.red));
                 }
             }
         });
+        autoCompleteTextViewNextStop.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String enteredText = s.toString();
+                boolean isTextInList = adapterNextStop.getPosition(enteredText) > -1;
+
+                if (isTextInList) {
+                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.purple));
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(autoCompleteTextViewNextStop.getWindowToken(), 0);
+                } else {
+                    autoCompleteTextViewNextStop.setTextColor(getResources().getColor(R.color.red));
+                }
+            }
+        });
+
         requestSignIn();
+    }
+    private String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("astops_with_next.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+    private List<Stop> parseJSONWithGson(String jsonString) {
+        Gson gson = new Gson();
+        Type stopListType = new TypeToken<ArrayList<Stop>>() {}.getType();
+        return gson.fromJson(jsonString, stopListType);
+    }
+    private void makeNewAdapter(){
+        String str = autoCompleteTextViewStop.getText().toString();
+        List<String> nextStopNames = new ArrayList<>();
+        for (int i =1;i<stopList.size();i++)
+        {
+            if(stopList.get(i).name.equals(str)){
+                nextStopNames.add(stopList.get(i).moveto);
+            }
+        }
+        adapterNextStop = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_dropdown_item_1line, nextStopNames);
+        autoCompleteTextViewNextStop.setAdapter(adapterNextStop);
     }
     @Override
     protected void onPause() {
@@ -197,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
